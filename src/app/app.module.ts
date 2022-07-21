@@ -11,6 +11,10 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import {
+  MatProgressSpinner,
+  MatProgressSpinnerModule,
+} from '@angular/material/progress-spinner';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
@@ -18,7 +22,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { RestaurantsListComponent } from './components/restaurants-list/restaurants-list.component';
 import { RestaurantItemComponent } from './components/restaurants-list/restaurant-item/restaurant-item.component';
 import { MatCardModule } from '@angular/material/card';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -33,11 +37,13 @@ import { FormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     BrowserAnimationsModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     MatButtonModule,
     MatGridListModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),

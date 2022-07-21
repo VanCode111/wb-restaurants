@@ -1,10 +1,13 @@
 <div class="auth">
   <div class="auth__wrapper">
     <div class="auth__card">
-      <form action="" class="auth__form">
+      <form class="auth__form" [formGroup]="signInForm">
+        <div class="auth__error" *ngIf="error && !isLoading">
+          Неверный адрес эл. почты или пароль
+        </div>
         <mat-form-field class="auth__field" appearance="outline">
           <mat-label>Адрес электронной почты</mat-label>
-          <input matInput placeholder="Эл. почта" />
+          <input formControlName="email" matInput placeholder="Эл. почта" />
           <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
           <mat-hint>Hint</mat-hint>
         </mat-form-field>
@@ -12,6 +15,7 @@
         <mat-form-field appearance="outline" class="auth__field">
           <mat-label>Пароль</mat-label>
           <input
+            formControlName="password"
             matInput
             placeholder="Введите пароль"
             [type]="hide ? 'password' : 'text'"
@@ -28,7 +32,13 @@
           <mat-hint>Hint</mat-hint>
         </mat-form-field>
 
-        <button mat-flat-button color="primary" class="auth__button">
+        <button
+          (click)="submit()"
+          mat-flat-button
+          color="primary"
+          class="auth__button"
+          [disabled]="isLoading || signInForm.invalid"
+        >
           Войти
         </button>
       </form>
