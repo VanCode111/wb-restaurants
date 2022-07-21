@@ -1,0 +1,37 @@
+<div class="auth">
+  <div class="auth__wrapper">
+    <div class="auth__card">
+      <form action="" class="auth__form">
+        <mat-form-field class="auth__field" appearance="outline">
+          <mat-label>Адрес электронной почты</mat-label>
+          <input matInput placeholder="Эл. почта" />
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="auth__field">
+          <mat-label>Пароль</mat-label>
+          <input
+            matInput
+            placeholder="Введите пароль"
+            [type]="hide ? 'password' : 'text'"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" class="auth__button">
+          Войти
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
