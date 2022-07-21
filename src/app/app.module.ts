@@ -27,6 +27,7 @@ import { FormsModule } from '@angular/forms';
     RestaurantItemComponent,
     SigninComponent,
     SignupComponent,
+    RestaurantItemComponent,
   ],
   imports: [
     BrowserModule,
