@@ -1,3 +1,5 @@
+import { SignupComponent } from './components/auth/signup/signup.component';
+import { SigninComponent } from './components/auth/signin/signin.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -6,38 +8,43 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatButtonModule } from '@angular/material/button';
-import {
-  MatFormFieldModule,
-  MAT_FORM_FIELD_DEFAULT_OPTIONS,
-} from '@angular/material/form-field';
-
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
-import { SigninComponent } from './components/auth/signin/signin.component';
-import { SignupComponent } from './components/auth/signup/signup.component';
+import { MatButtonModule } from '@angular/material/button';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { RestaurantsListComponent } from './components/restaurants-list/restaurants-list.component';
+import { RestaurantItemComponent } from './components/restaurants-list/restaurant-item/restaurant-item.component';
+import { MatCardModule } from '@angular/material/card';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent, SigninComponent, SignupComponent],
+  declarations: [
+    AppComponent,
+    RestaurantsListComponent,
+    RestaurantItemComponent,
+    SigninComponent,
+    SignupComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    MatButtonModule,
-    BrowserAnimationsModule,
+    MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatFormFieldModule,
+    BrowserAnimationsModule,
+    MatIconModule,
+    MatButtonModule,
     MatGridListModule,
-    ReactiveFormsModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    MatCardModule,
   ],
-  providers: [
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'fill' },
-    },
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "wb-restaurants": {
+      "hosting": {
+        "wb-restaurants": [
+          "wb-restaurants"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "wb-restaurants"
+  }
+}

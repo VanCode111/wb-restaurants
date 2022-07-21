@@ -96,8 +96,21 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "wb-restaurants:build:production",
+            "firebaseProject": "wb-restaurants",
+            "firebaseHostingSite": "wb-restaurants"
+          }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
