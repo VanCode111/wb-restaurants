@@ -1,0 +1,17 @@
+.restaurant-card {
+  max-width: 500px;
+  margin-bottom: 20px;
+
+  &__img {
+    object-fit: cover;
+    height: 300px;
+  }
+
+  &__rating {
+    margin-right: 10px;
+  }
+
+  &__kitchen {
+    margin-right: 5px;
+  }
+}

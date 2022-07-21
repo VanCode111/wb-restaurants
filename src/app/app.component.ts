@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-
+import {Component} from '@angular/core';
 
 export interface Tile {
   color: string;
@@ -23,5 +22,7 @@ export class AppComponent {
   ];
 
 }
+
+
 
 
