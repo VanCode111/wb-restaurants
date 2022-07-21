@@ -1,0 +1,32 @@
+
+.header{
+  border-bottom: 1px solid #cccccc;
+  height: 125px;
+  display: flex;
+}
+.container{
+  padding-left: 270px;
+  margin: 1%;
+  display: inline-flex;
+}
+
+.header-image{
+  width: 250px;
+  object-fit: cover;
+}
+
+.links{
+  padding-top: 25px;
+  padding-left: 700px;
+}
+
+
+.links a{
+  text-decoration: none;
+  padding-left: 20px;
+  color: #bb0fbb;
+}
+
+.restaurant-field{
+  margin: 0 10%;
+}
