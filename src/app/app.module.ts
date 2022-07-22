@@ -23,6 +23,7 @@ import { RestaurantsListComponent } from './components/restaurants-list/restaura
 import { RestaurantItemComponent } from './components/restaurants-list/restaurant-item/restaurant-item.component';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SigninComponent,
     SignupComponent,
     RestaurantItemComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

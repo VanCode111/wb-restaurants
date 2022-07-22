@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import {
   Auth,
+  authState,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  User,
   UserCredential,
 } from '@angular/fire/auth';
-import { from, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 
 export interface ISignIn {
   email: string;
@@ -20,7 +22,16 @@ export interface ISignUp extends ISignIn {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private auth: Auth) {}
+  currentUser = authState(this.auth);
+  curr = new BehaviorSubject<null | User>(null);
+
+  constructor(private auth: Auth) {
+    this.currentUser.subscribe((user) => this.curr.next(user));
+  }
+
+  get currentUser$() {
+    return this.curr;
+  }
 
   signIn({ email, password }: ISignIn): Observable<UserCredential> {
     return from(signInWithEmailAndPassword(this.auth, email, password));
@@ -28,5 +39,9 @@ export class AuthService {
 
   signUp({ email, password }: ISignIn): Observable<UserCredential> {
     return from(createUserWithEmailAndPassword(this.auth, email, password));
+  }
+
+  logout(): Observable<void> {
+    return from(this.auth.signOut());
   }
 }

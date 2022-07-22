@@ -27,5 +27,8 @@
     </mat-grid-tile>
   </mat-grid-list>
 </div> -->
+<div class="loading" *ngIf="loading"><mat-spinner></mat-spinner></div>
 
-<router-outlet></router-outlet>
+<div class="app" *ngIf="!loading">
+  <app-header></app-header> <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,31 @@
+<div class="header mat-h1">
+  <div class="container">
+    <img class="header-image" src="./assets/logo.png" />
+    <nav class="links">
+      <a routerLink="restaurants" routerLinkActive="active">
+        <mat-icon fontIcon="restaurant_menu" color="accent"></mat-icon>
+        Рестораны
+      </a>
+      <a routerLink="profile" routerLinkActive="active">
+        <mat-icon fontIcon="home" color="accent"></mat-icon>
+        Профиль
+      </a>
+      <button
+        *ngIf="!currentUser"
+        mat-flat-button
+        color="primary"
+        routerLink="/signin"
+      >
+        Войти
+      </button>
+      <button
+        *ngIf="currentUser"
+        mat-flat-button
+        color="primary"
+        (click)="logout()"
+      >
+        Выйти
+      </button>
+    </nav>
+  </div>
+</div>
