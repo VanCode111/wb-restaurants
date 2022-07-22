@@ -16,7 +16,7 @@ export class SignupComponent implements OnInit {
   isLoading = false;
   user$!: Subscription;
   constructor(private AuthService: AuthService) {
-    document.title = 'Авторизация';
+    document.title = 'Регистрация';
     this._createForm();
   }
 
