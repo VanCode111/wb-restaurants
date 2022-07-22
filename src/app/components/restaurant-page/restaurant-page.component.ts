@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-
+import {Component, OnInit} from '@angular/core';
 
 
 @Component({
@@ -8,8 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./restaurant-page.component.scss']
 })
 export class RestaurantPageComponent implements OnInit {
+  panelOpenState = false
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

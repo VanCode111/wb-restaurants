@@ -20,6 +20,7 @@ import { RestaurantItemComponent } from './components/restaurants-list/restauran
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { RestaurantPageComponent } from './components/restaurant-page/restaurant-page.component';
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { RestaurantPageComponent } from './components/restaurant-page/restaurant
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     MatCardModule,
+    MatExpansionModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
