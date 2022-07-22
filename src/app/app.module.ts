@@ -19,6 +19,7 @@ import { RestaurantsListComponent } from './components/restaurants-list/restaura
 import { RestaurantItemComponent } from './components/restaurants-list/restaurant-item/restaurant-item.component';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
+import { RestaurantPageComponent } from './components/restaurant-page/restaurant-page.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { FormsModule } from '@angular/forms';
     SigninComponent,
     SignupComponent,
     RestaurantItemComponent,
+    RestaurantPageComponent,
   ],
   imports: [
     BrowserModule,
