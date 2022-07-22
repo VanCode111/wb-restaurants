@@ -34,6 +34,36 @@
     color: #f44336;
     margin: 0 0 20px 0;
   }
+  &__question {
+    &-border {
+      background-color: rgb(233, 233, 233);
+      height: 2px;
+      width: 100%;
+    }
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-direction: column;
+
+    margin-top: 10px;
+    &-bottom {
+      text-align: center;
+    }
+    & a {
+      color: black;
+      font-weight: 500;
+    }
+    &-top {
+      display: flex;
+      align-items: center;
+
+      white-space: nowrap;
+    }
+    &-text {
+      padding: 0 10px;
+    }
+    margin-top: 20px;
+  }
 }
 
 .field {
