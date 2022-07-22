@@ -8,8 +8,17 @@
         <mat-form-field class="auth__field" appearance="outline">
           <mat-label>Адрес электронной почты</mat-label>
           <input formControlName="email" matInput placeholder="Эл. почта" />
-          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-          <mat-hint>Hint</mat-hint>
+          <mat-icon matSuffix> email</mat-icon>
+          <mat-hint
+            class="field__error"
+            *ngIf="email?.errors?.['required'] && email?.touched"
+            >Это поле обязательно</mat-hint
+          >
+          <mat-hint
+            class="field__error"
+            *ngIf="email?.errors?.['email'] && email?.touched"
+            >Некорректный email</mat-hint
+          >
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="auth__field">
@@ -29,7 +38,11 @@
           >
             <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
           </button>
-          <mat-hint>Hint</mat-hint>
+          <mat-hint
+            class="field__error"
+            *ngIf="password?.errors?.['required'] && password?.touched"
+            >Это поле обязательно</mat-hint
+          >
         </mat-form-field>
 
         <button

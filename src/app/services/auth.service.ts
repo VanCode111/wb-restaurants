@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   Auth,
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   UserCredential,
 } from '@angular/fire/auth';
@@ -23,5 +24,9 @@ export class AuthService {
 
   signIn({ email, password }: ISignIn): Observable<UserCredential> {
     return from(signInWithEmailAndPassword(this.auth, email, password));
+  }
+
+  signUp({ email, password }: ISignIn): Observable<UserCredential> {
+    return from(createUserWithEmailAndPassword(this.auth, email, password));
   }
 }

@@ -12,7 +12,10 @@
   }
   &__field {
     width: 100%;
+
+    margin: 0 0 10px 0;
   }
+
   &__button {
     display: block;
     width: 100%;
@@ -30,5 +33,11 @@
     padding: 10px;
     color: #f44336;
     margin: 0 0 20px 0;
+  }
+}
+
+.field {
+  &__error {
+    color: #f44336;
   }
 }

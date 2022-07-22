@@ -46,4 +46,12 @@ export class SigninComponent implements OnInit {
   OnDestroy() {
     this.user$?.unsubscribe();
   }
+
+  get email() {
+    return this.signInForm.get('email');
+  }
+
+  get password() {
+    return this.signInForm.get('password');
+  }
 }
