@@ -1,0 +1,23 @@
+<div>
+  <mat-form-field appearance="outline">
+    <mat-label>Сортировка</mat-label>
+    <mat-select multiple>
+      <mat-option *ngFor="let item of sortSelect" [value]="item.value">
+        {{item.label}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Кухня</mat-label>
+    <mat-select multiple>
+      <mat-option *ngFor="let item of sortSelect" [value]="item.value">
+        {{item.label}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Город</mat-label>
+    <input matInput/>
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</div>

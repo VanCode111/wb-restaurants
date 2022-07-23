@@ -1,31 +1,8 @@
-<div class="header mat-h1">
-  <div class="container">
-    <img class="header-image" src="./assets/logo.png" />
-    <nav class="links">
-      <a routerLink="restaurants" routerLinkActive="active">
-        <mat-icon fontIcon="restaurant_menu" color="accent"></mat-icon>
-        Рестораны
-      </a>
-      <a routerLink="profile" routerLinkActive="active">
-        <mat-icon fontIcon="home" color="accent"></mat-icon>
-        Профиль
-      </a>
-      <a></a>
-    </nav>
-  </div>
+<div class="loading" *ngIf="loading">
+  <mat-spinner></mat-spinner>
 </div>
-<!--<div class="restaurant-field">-->
-<!--  <mat-grid-list cols="4">-->
-<!--    <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="'lightblue'">-->
-<!--      Тут поиск-->
-<!--    </mat-grid-tile>-->
-<!--    <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="'red'">-->
-<!--      Тут фильтры-->
-<!--    </mat-grid-tile>-->
-<!--    <mat-grid-tile [colspan]="3" [rowspan]="10">-->
-<!--      <app-restaurants-list></app-restaurants-list>-->
-<!--    </mat-grid-tile>-->
-<!--  </mat-grid-list>-->
-<!--</div>-->
 
-<router-outlet></router-outlet>
+<div class="app" *ngIf="!loading">
+  <app-header></app-header>
+  <router-outlet></router-outlet>
+</div>

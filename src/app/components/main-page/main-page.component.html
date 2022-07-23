@@ -1,0 +1,18 @@
+<main class="restaurant-field">
+  <app-search></app-search>
+  <div class="main">
+    <div class="main__filters">
+      <app-filters></app-filters>
+    </div>
+    <div class="main__list">
+      <app-restaurants-list></app-restaurants-list>
+      <mat-paginator [length]="100"
+                     [pageSize]="10"
+                     [hidePageSize]="true"
+                     (page)="pageEvent = $event"
+                     aria-label="Select page">
+      </mat-paginator>
+    </div>
+  </div>
+</main>
+<!--</div>-->

@@ -28,16 +28,24 @@ export class RestaurantsListComponent implements OnInit, OnDestroy {
 
   restaurants: Restaurant[] = []
   restaurants$: Subscription | null = null
+  restaurantsInit$: Subscription | null = null
+  isLoading = true
 
   constructor(private restaurantsService: RestaurantsService) {
   }
 
   ngOnInit(): void {
-    this.restaurants$ = this.restaurantsService.getAllRestaurants()
-      .subscribe((data) => this.restaurants = data as Restaurant[])
+    this.restaurantsInit$ = this.restaurantsService.getAllRestaurants()
+      .subscribe((data) => this.restaurantsService.rests.next(data))
+
+    this.restaurants$ = this.restaurantsService.rests.subscribe((data: any) => {
+      this.restaurants = data
+      this.isLoading = false
+    })
   }
 
   ngOnDestroy() {
     this.restaurants$?.unsubscribe()
+    this.restaurantsInit$?.unsubscribe()
   }
 }

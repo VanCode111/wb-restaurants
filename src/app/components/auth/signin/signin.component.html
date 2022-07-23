@@ -1,17 +1,30 @@
 <div class="auth">
   <div class="auth__wrapper">
     <div class="auth__card">
-      <form action="" class="auth__form">
+      <form class="auth__form" [formGroup]="signInForm">
+        <div class="auth__error" *ngIf="error && !isLoading">
+          Неверный адрес эл. почты или пароль
+        </div>
         <mat-form-field class="auth__field" appearance="outline">
           <mat-label>Адрес электронной почты</mat-label>
-          <input matInput placeholder="Эл. почта" />
-          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-          <mat-hint>Hint</mat-hint>
+          <input formControlName="email" matInput placeholder="Эл. почта" />
+          <mat-icon matSuffix> email</mat-icon>
+          <mat-hint
+            class="field__error"
+            *ngIf="email?.errors?.['required'] && email?.touched"
+            >Это поле обязательно</mat-hint
+          >
+          <mat-hint
+            class="field__error"
+            *ngIf="email?.errors?.['email'] && email?.touched"
+            >Некорректный email</mat-hint
+          >
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="auth__field">
           <mat-label>Пароль</mat-label>
           <input
+            formControlName="password"
             matInput
             placeholder="Введите пароль"
             [type]="hide ? 'password' : 'text'"
@@ -25,12 +38,33 @@
           >
             <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
           </button>
-          <mat-hint>Hint</mat-hint>
+          <mat-hint
+            class="field__error"
+            *ngIf="password?.errors?.['required'] && password?.touched"
+            >Это поле обязательно</mat-hint
+          >
         </mat-form-field>
 
-        <button mat-flat-button color="primary" class="auth__button">
+        <button
+          (click)="submit()"
+          mat-flat-button
+          color="primary"
+          class="auth__button"
+          [disabled]="isLoading || signInForm.invalid"
+        >
           Войти
         </button>
+        <div class="auth__question">
+          <p class="auth__question-top">
+            <span class="auth__question-border"></span
+            ><span class="auth__question-text">Еще не зарегистрированы?</span
+            ><span class="auth__question-border"></span>
+          </p>
+          <div class="auth__question-bottom">
+            <a routerLink="/signup" class="auth__link">Присоединяйтесь</a> чтобы
+            использовать все возможности приложения
+          </div>
+        </div>
       </form>
     </div>
   </div>
