@@ -1,7 +1,9 @@
 <div><mat-grid-list cols="2" class="restaurant-page" rowHeight="5:4" gutterSize="5px">
   <mat-grid-tile-header>
     <div class="restaurant-page__title">
-      <p class="mat-display-2">Ресторан тадаа + Рейтинг ресторана</p>
+      <p class="mat-display-2">Ресторан тадаа
+        <mat-icon *ngFor="let key of [1,2,3,4]" aria-hidden="false" aria-label="Example home icon" fontIcon="star">
+        </mat-icon></p>
       <p class="mat-display-1"><b>Адрес такой-то</b></p>
     </div>
   </mat-grid-tile-header>
