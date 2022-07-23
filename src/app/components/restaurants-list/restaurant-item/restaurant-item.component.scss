@@ -1,6 +1,10 @@
 .restaurant-card {
-  max-width: 500px;
-  margin-bottom: 20px;
+  width: 100%;
+  margin-bottom: 30px;
+
+  &__header {
+    margin-bottom: 10px;
+  }
 
   &__img {
     object-fit: cover;
@@ -13,5 +17,18 @@
 
   &__kitchen {
     margin-right: 5px;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: currentColor;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s;
+    margin-bottom: 5px;
+
+    &:hover {
+      transition: border-color 0.3s;
+      border-bottom: 2px solid #000;
+    }
   }
 }

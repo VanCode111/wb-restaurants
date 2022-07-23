@@ -1,0 +1,41 @@
+.header {
+  border-bottom: 1px solid #cccccc;
+  height: 125px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container {
+  max-width: 1460px;
+  padding: 0 30px;
+  margin: 0 auto;
+}
+
+.header-image {
+  width: 250px;
+  object-fit: cover;
+}
+
+.links a {
+  text-decoration: none;
+  padding-left: 20px;
+  color: #000;
+}
+
+.restaurant-field {
+}
+
+.main {
+  display: flex;
+
+  &__filters {
+    flex: 0.3;
+    margin-right: 50px;
+  }
+
+  &__list {
+    margin-left: 30px;
+    flex: 0.7;
+  }
+}

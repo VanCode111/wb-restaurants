@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="header mat-h1">
+    <a routerLink="/">
+      <img class="header-image" src="./assets/logo.png"/>
+    </a>
+    <nav class="links">
+      <a routerLink="restaurants" routerLinkActive="active">
+        <mat-icon fontIcon="restaurant_menu" color="accent"></mat-icon>
+        Рестораны
+      </a>
+      <a routerLink="profile" routerLinkActive="active">
+        <mat-icon fontIcon="home" color="accent"></mat-icon>
+        Профиль
+      </a>
+    </nav>
+  </div>
+  <main class="restaurant-field">
+    <app-search></app-search>
+    <div class="main">
+      <div class="main__filters">
+        <app-filters></app-filters>
+      </div>
+      <div class="main__list">
+        <app-restaurants-list></app-restaurants-list>
+        <mat-paginator [length]="100"
+                       [pageSize]="10"
+                       [hidePageSize]="true"
+                       (page)="pageEvent = $event"
+                       aria-label="Select page">
+        </mat-paginator>
+      </div>
+    </div>
+  </main>
+</div>

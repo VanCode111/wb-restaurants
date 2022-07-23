@@ -1,3 +1,6 @@
-<ul>
-  <app-restaurant-item *ngFor="let item of restaurants" [item]="item"></app-restaurant-item>
+<ul class="restaurants-list">
+  <mat-spinner *ngIf="isLoading; else restList" class="spinner"></mat-spinner>
+  <ng-template #restList>
+    <app-restaurant-item *ngFor="let item of restaurants" [item]="item"></app-restaurant-item>
+  </ng-template>
 </ul>
