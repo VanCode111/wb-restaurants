@@ -2,7 +2,6 @@ import {SignupComponent} from './components/auth/signup/signup.component';
 import {SigninComponent} from './components/auth/signin/signin.component';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -18,7 +17,6 @@ import {provideFirestore, getFirestore} from '@angular/fire/firestore';
 import {RestaurantsListComponent} from './components/restaurants-list/restaurants-list.component';
 import {RestaurantItemComponent} from './components/restaurants-list/restaurant-item/restaurant-item.component';
 import {MatCardModule} from '@angular/material/card';
-import {FormsModule} from '@angular/forms';
 import {SearchComponent} from './components/search/search.component';
 import {MainPageComponent} from './components/main-page/main-page.component';
 import {FiltersComponent} from './components/filters/filters.component';
@@ -26,6 +24,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {AngularFireModule} from "@angular/fire/compat";
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HeaderComponent} from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -38,16 +38,19 @@ import {AngularFireModule} from "@angular/fire/compat";
     SearchComponent,
     MainPageComponent,
     FiltersComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     BrowserAnimationsModule,
     MatIconModule,
+    MatProgressSpinnerModule,
     MatButtonModule,
     MatGridListModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
