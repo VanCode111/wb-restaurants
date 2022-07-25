@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RestaurantsService} from "../../services/restaurants.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-search',
@@ -8,7 +8,6 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit, OnDestroy {
-
   constructor(private restaurantsService: RestaurantsService, private router: Router) {
   }
 
@@ -25,5 +24,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+
   }
 }

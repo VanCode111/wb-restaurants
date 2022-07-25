@@ -38,13 +38,13 @@ export class RestaurantsListComponent implements OnInit, OnDestroy {
             throw new Error(err)
           }))
           .subscribe(({data, length}) => {
-              this.restaurants = data
-              this.length = length > 0 ? Math.round(length / 5) : 1
-              this.isEmpty = length < 1
-            }
-          )
+            this.restaurants = data
+            this.length = length > 1 ? Math.round(length / 5) : 1
+            this.isEmpty = length < 1
+          })
       })
   }
+
 
   ngOnDestroy() {
     this.params$?.unsubscribe()

@@ -30,6 +30,7 @@ export interface Restaurant {
 @Injectable({
   providedIn: 'root'
 })
+
 export class RestaurantsService {
   filter = (prefix: string, value: string) => value || undefined
 
@@ -51,6 +52,11 @@ export class RestaurantsService {
     params = {p: 1, l: 5, ...params}
     return this.http
       .get<RestaurantsApiResponse>(`${environment.apiUrl}/restaurants?${qs.stringify(params, {filter: this.filter})}`)
+  }
+  
+  getOneRestaurant(id: string): Observable<Restaurant> {
+    return this.http
+      .get<Restaurant>(`${environment.apiUrl}/restaurants/${id}`)
   }
 
   checkNulls(value: any) {
