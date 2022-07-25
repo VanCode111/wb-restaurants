@@ -28,6 +28,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HeaderComponent} from './components/header/header.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ApiInterceptor} from "./services/api.interceptor";
+import { CostPipe } from './components/restaurants-list/restaurant-item/cost.pipe';
+
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import {ApiInterceptor} from "./services/api.interceptor";
     MainPageComponent,
     FiltersComponent,
     HeaderComponent,
+    CostPipe,
   ],
   imports: [
     BrowserModule,

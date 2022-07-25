@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {RestaurantsService} from "../../services/restaurants.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-filters',
@@ -40,10 +39,7 @@ export class FiltersComponent implements OnInit {
     city: new FormControl(),
   });
 
-  params$: Subscription | null = null
-  filteredRestaurants$: Subscription | null = null
-
-  constructor(private restaurantsService: RestaurantsService, private router: Router, private route: ActivatedRoute) {
+  constructor(private restaurantsService: RestaurantsService, private router: Router) {
   }
 
   sortRestaurants(e: any) {
@@ -64,15 +60,8 @@ export class FiltersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.params$ = this.route.queryParams
-    //   .subscribe(data => {
-    //     this.filteredRestaurants$ = this.restaurantsService.getRestaurants(data)
-    //       .subscribe((data) => this.restaurantsService.data.next(data))
-    //   })
   }
 
   ngOnDestroy() {
-    this.filteredRestaurants$?.unsubscribe()
-    this.params$?.unsubscribe()
   }
 }

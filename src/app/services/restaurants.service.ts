@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import * as qs from 'qs'
 import {environment} from "../../environments/environment";
@@ -31,7 +31,6 @@ export interface Restaurant {
   providedIn: 'root'
 })
 export class RestaurantsService {
-  data: Subject<RestaurantsApiResponse> = new Subject()
   filter = (prefix: string, value: string) => value || undefined
 
   private _loading = new BehaviorSubject<boolean>(false);
@@ -52,10 +51,6 @@ export class RestaurantsService {
     params = {p: 1, l: 5, ...params}
     return this.http
       .get<RestaurantsApiResponse>(`${environment.apiUrl}/restaurants?${qs.stringify(params, {filter: this.filter})}`)
-  }
-
-  searchRestaurants(search: string): Observable<RestaurantsApiResponse> {
-    return this.http.get<RestaurantsApiResponse>(`${environment.apiUrl}/restaurants?search=${search}`)
   }
 
   checkNulls(value: any) {

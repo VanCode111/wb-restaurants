@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RestaurantsService} from "../../services/restaurants.service";
-import {Subscription} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
@@ -10,10 +9,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class SearchComponent implements OnInit, OnDestroy {
 
-  searchedRestaurants$: Subscription | null = null
-  params$: Subscription | null = null
-
-  constructor(private restaurantsService: RestaurantsService, private router: Router, private route: ActivatedRoute) {
+  constructor(private restaurantsService: RestaurantsService, private router: Router) {
   }
 
   search(e: any) {
@@ -26,15 +22,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    // this.params$ = this.route.queryParams
-    //   .subscribe(data => {
-    //     this.searchedRestaurants$ = this.restaurantsService.searchRestaurants(data['search'])
-    //       .subscribe((data) => this.restaurantsService.data.next(data))
-    //   })
   }
 
   ngOnDestroy() {
-    this.searchedRestaurants$?.unsubscribe()
-    this.params$?.unsubscribe()
   }
 }

@@ -1,12 +1,14 @@
 <ul class="restaurants-list">
   <mat-spinner *ngIf="loading$ | async; else restList" class="spinner"></mat-spinner>
+  <div *ngIf="isEmpty && !(loading$ | async)">Ничего не найдено</div>
   <ng-template #restList>
     <app-restaurant-item *ngFor="let item of restaurants" [item]="item"></app-restaurant-item>
   </ng-template>
-  <mat-paginator [length]="length"
-                 [pageSize]="1"
-                 [hidePageSize]="true"
-                 (page)="page($event)"
-                 aria-label="Select page">
+  <mat-paginator
+    [length]="length"
+    [pageSize]="1"
+    [hidePageSize]="true"
+    (page)="page($event)"
+    aria-label="Select page">
   </mat-paginator>
 </ul>

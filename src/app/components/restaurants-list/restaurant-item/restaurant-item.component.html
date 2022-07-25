@@ -11,17 +11,20 @@
     <img class="restaurant-card__img" mat-card-image [src]="item.image">
   </a>
   <mat-card-content>
-    <div>
-      <span class="restaurant-card__rating">Rating: {{item.rating}}</span>
-      <span class="restaurant-card__reviews">Comments/Reviews: {{item.comments.length}}</span>
+    <div class="restaurant-card__body-header">
+      <span class="restaurant-card__rating">
+        <ng-container *ngFor="let star of stars; let i = index">
+          <mat-icon *ngIf="item.rating >= i + 0.5">{{item.rating >= i + 1 ? 'star' : 'star_half'}}</mat-icon>
+        </ng-container>
+      </span>
+      <span class="restaurant-card__reviews">{{item.comments.length}} отзывов</span>
     </div>
-    <div>
-      Кухни:
-      <span class="restaurant-card__kitchen" *ngFor="let kitchen of item.kitchens">{{kitchen}}</span>
-    </div>
-    <div>
-      <span>Cost level: {{item.cost}}</span>
-      <span>Average check: {{item.averageCheck}}</span>
+    <div class="restaurant-card__body card-body">
+      <div class="card-body__wrapper">
+        Кухни:
+        <span class="restaurant-card__kitchen" *ngFor="let kitchen of item.kitchens">{{kitchen}}</span>
+      </div>
+      <span>{{item.cost | cost}}</span>
     </div>
   </mat-card-content>
   <mat-card-actions>

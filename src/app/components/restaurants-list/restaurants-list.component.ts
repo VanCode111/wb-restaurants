@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Restaurant, RestaurantsService} from "../../services/restaurants.service";
-import {Subscription} from "rxjs";
+import {catchError, Subscription} from "rxjs";
 import {PageEvent} from "@angular/material/paginator";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -12,6 +12,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class RestaurantsListComponent implements OnInit, OnDestroy {
   restaurants: Restaurant[] = []
   length = 0
+  isEmpty = false
   restaurants$: Subscription | null = null
   params$: Subscription | null = null
   loading$ = this.restaurantsService.loading$
@@ -32,16 +33,21 @@ export class RestaurantsListComponent implements OnInit, OnDestroy {
     this.params$ = this.route.queryParams
       .subscribe(data => {
         this.restaurants$ = this.restaurantsService.getRestaurants(data)
+          .pipe(catchError((err) => {
+            this.error = err.message
+            throw new Error(err)
+          }))
           .subscribe(({data, length}) => {
               this.restaurants = data
               this.length = length > 0 ? Math.round(length / 5) : 1
+              this.isEmpty = length < 1
             }
           )
       })
   }
 
   ngOnDestroy() {
-    this.restaurants$?.unsubscribe()
+    this.params$?.unsubscribe()
     this.restaurants$?.unsubscribe()
   }
 }
