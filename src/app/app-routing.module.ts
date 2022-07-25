@@ -11,7 +11,7 @@ const routes: Routes = [
   // {path: 'profile', component: ProfileComponent}
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
-  {path: 'restaurant', component: RestaurantPageComponent}
+  {path: 'restaurant/:id', component: RestaurantPageComponent}
 ];
 
 @NgModule({

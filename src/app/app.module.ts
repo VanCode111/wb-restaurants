@@ -30,6 +30,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {AngularFireModule} from "@angular/fire/compat";
 import {MatSelectModule} from "@angular/material/select";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -44,7 +45,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     SearchComponent,
     MainPageComponent,
     FiltersComponent,
-    HeaderComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +69,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     MatSelectModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

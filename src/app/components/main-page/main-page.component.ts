@@ -10,6 +10,7 @@ export class MainPageComponent implements OnInit {
   pageEvent: PageEvent | undefined;
 
   constructor() {
+    document.title = 'Рестораны';
   }
 
   ngOnInit(): void {

@@ -1,30 +1,70 @@
 import {Injectable} from '@angular/core';
-import {collection, Firestore, collectionSnapshots} from "@angular/fire/firestore";
-import {map, Observable, Subject} from "rxjs";
-import {Restaurant} from "../components/restaurants-list/restaurants-list.component";
-import {AngularFirestore} from "@angular/fire/compat/firestore";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import * as qs from 'qs'
+import {environment} from "../../environments/environment";
 
+export interface RestaurantsApiResponse {
+  data: Restaurant[]
+  length: number
+}
+
+export interface Restaurant {
+  id: string
+  name: string
+  image: string
+  address: string
+  time: {
+    weekdays: string
+    weekends: string
+  }
+  kitchens: string[]
+  rating: number
+  menuLink?: string
+  averageCheck: number
+  cost: number
+  comments: string[]
+  // mainKitchen: string
+}
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class RestaurantsService {
+  data: Subject<RestaurantsApiResponse> = new Subject()
+  filter = (prefix: string, value: string) => value || undefined
 
-  rests = new Subject()
+  private _loading = new BehaviorSubject<boolean>(false);
+  public readonly loading$ = this._loading.asObservable();
 
-  constructor(private firestore: Firestore, private afs: AngularFirestore) {
+  constructor(private http: HttpClient) {
   }
 
-  getAllRestaurants(): Observable<Restaurant[]> {
-    return collectionSnapshots(collection(this.firestore, 'restaurants'))
-      .pipe(map((list) => list.map(item => ({id: item.id, ...item.data()} as Restaurant))))
+  showLoader() {
+    this._loading.next(true);
   }
 
-  fireQuery(start: string, end: string) {
-    return this.afs
-      .collection(
-        'restaurants',
-        ref => ref.limit(10).orderBy('name').startAt(start).endAt(end)
-      ).valueChanges()
+  hideLoader() {
+    this._loading.next(false);
+  }
+
+  getRestaurants(params?: any): Observable<RestaurantsApiResponse> {
+    params = {p: 1, l: 5, ...params}
+    return this.http
+      .get<RestaurantsApiResponse>(`${environment.apiUrl}/restaurants?${qs.stringify(params, {filter: this.filter})}`)
+  }
+
+  searchRestaurants(search: string): Observable<RestaurantsApiResponse> {
+    return this.http.get<RestaurantsApiResponse>(`${environment.apiUrl}/restaurants?search=${search}`)
+  }
+
+  getOneRestaurant(id: string): Observable<Restaurant> {
+    return this.http
+      .get<Restaurant>(`${environment.apiUrl}/restaurants/${id}`)
+  }
+
+  checkNulls(value: any) {
+    return value ? value : null
   }
 }

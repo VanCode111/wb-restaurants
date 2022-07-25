@@ -1,74 +1,93 @@
-<div><mat-grid-list cols="2" class="restaurant-page" rowHeight="5:4" gutterSize="5px">
-  <mat-grid-tile-header>
-    <div class="restaurant-page__title">
-      <p class="mat-display-2">Ресторан тадаа
-        <mat-icon *ngFor="let key of [1,2,3,4]" aria-hidden="false" aria-label="Example home icon" fontIcon="star">
-        </mat-icon></p>
-      <p class="mat-display-1"><b>Адрес такой-то</b></p>
-    </div>
-  </mat-grid-tile-header>
-  <mat-grid-tile colspan="1" rowspan="1">
-    <img class="restaurant-page__image" mat-card-image src="./assets/logo.png">
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1" rowspan="1" class="restaurant-page__description">
-    <mat-grid-list cols="2" gutterSize="18px" rowHeight="3:1" class="restaurant-page__description__field">
-      <div class="restaurant-page__info">
-        <mat-grid-tile colspan="2" rowspan="1">
-          <p class="mat-display-2">Информация о ресторане</p>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="1" rowspan="1" class="restaurant-page__description__tile">
-          <div>
-            <h1>Время работы</h1>
-            <li>будни: 10-22</li>
-            <li>выходные: 11-23</li>
-          </div>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="1" rowspan="1" class="restaurant-page__description__tile">
-          <div class="no-marks">
-            <li>
-              <b>Цена</b> PPPP
-            </li>
-            <li><b>Средний чек</b> 1500
-            </li>
-          </div>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="2" rowspan="1" class="restaurant-page__description__tile">
-          <div>
-            <h1>Тип кухни</h1>
-            <p>Французская, Китайская, Русская</p>
-          </div>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="2" rowspan="1" *ngIf="true" class="restaurant-page__description__tile">
-          <div>
-            <h1>Меню </h1> <a href="#"> https:/11111111111111111111111</a>
-          </div>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="2" rowspan="1">
-          <button mat-button> Добавить в "Хочу посетить"
-            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="favorite" color="warn"></mat-icon>
-          </button>
-        </mat-grid-tile>
-      </div>
-    </mat-grid-list>
-  </mat-grid-tile>
-</mat-grid-list>
+<div class="loading" *ngIf="loading">
+  <mat-spinner></mat-spinner>
 </div>
-<div *ngIf="true" class="margin">
-<mat-expansion-panel class="reviews" (opened)="panelOpenState = true"
-                     (closed)="panelOpenState = false">
-  <mat-expansion-panel-header>
-    <mat-panel-title class="mat-h1">
-      Отзывы о ресторане
-    </mat-panel-title>
-    <mat-panel-description class="mat-h1">
-      Всего отзывов: 1
-    </mat-panel-description>
-  </mat-expansion-panel-header>
-  <mat-card>
-    <mat-card-title class="mat-h1">Аноним</mat-card-title>
-    <mat-card-content>
-      <p class="mat-h2">Хороший ресторан, ставлю 5</p>
-    </mat-card-content>
-  </mat-card>
-</mat-expansion-panel>
+
+<div *ngIf="!loading">
+  <mat-grid-list cols="2" class="restaurant-page" rowHeight="5:4" gutterSize="5px">
+    <mat-grid-tile-header>
+      <div class="restaurant-page__title">
+        <p class="mat-display-2">{{restaurant.name}}
+          <mat-icon *ngFor="let key of starArray" aria-hidden="false" aria-label="Example home icon" fontIcon="star">
+          </mat-icon>
+          <mat-icon *ngIf="restaurant.rating * 2 % 2 == 1" aria-hidden="false" aria-label="Example home icon" fontIcon="star_half"></mat-icon>
+        </p>
+        <p class="mat-display-1"><b>{{restaurant.address}}</b></p>
+      </div>
+    </mat-grid-tile-header>
+    <mat-grid-tile colspan="1" rowspan="1">
+      <img class="restaurant-page__image" mat-card-image [src]="restaurant.image">
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1" rowspan="1" class="restaurant-page__description">
+      <mat-grid-list cols="2" gutterSize="18px" rowHeight="3:1" class="restaurant-page__description__field">
+        <div class="restaurant-page__info">
+          <mat-grid-tile colspan="2" rowspan="1">
+            <p class="mat-display-2">Информация о ресторане</p>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="1" rowspan="1" class="restaurant-page__description__tile">
+            <div>
+              <h1>Время работы</h1>
+              <li>будни: {{restaurant.time.weekdays}}</li>
+              <li>выходные: {{restaurant.time.weekends}}</li>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="1" rowspan="1" class="restaurant-page__description__tile">
+            <div class="no-marks">
+              <li>
+                <b>Цена</b>
+                <span [ngSwitch]="restaurant.cost">
+                  <span *ngSwitchCase='1'> ₽</span>
+                  <span *ngSwitchCase='2'> ₽₽</span>
+                  <span *ngSwitchCase='3'> ₽₽₽</span>
+                  <span *ngSwitchCase='4'> ₽₽₽₽</span>
+                  <span *ngSwitchCase='5'> ₽₽₽₽₽</span>
+                  <span *ngSwitchDefault>Нет данных</span>
+                </span>
+              </li>
+              <li><b>Средний чек</b> {{restaurant.averageCheck}} ₽
+              </li>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="2" rowspan="1" class="restaurant-page__description__tile">
+            <div>
+              <h1>Тип кухни</h1>
+              <p>{{restaurant.kitchens}}</p>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="2" rowspan="1" class="restaurant-page__description__tile">
+            <div *ngIf="restaurant.menuLink">
+              <h1><a [href]="restaurant.menuLink">Меню данного заведения</a></h1>
+            </div>
+            <div *ngIf="!restaurant.menuLink">
+              <h1>Ссылки на меню пока нет :(</h1>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="2" rowspan="1">
+            <button mat-button> Добавить в "Хочу посетить"
+              <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="favorite" color="warn"></mat-icon>
+            </button>
+          </mat-grid-tile>
+        </div>
+      </mat-grid-list>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <div *ngIf="restaurant.comments.length!=0" class="margin">
+    <mat-expansion-panel class="reviews" (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="mat-h1">
+          Отзывы о ресторане
+        </mat-panel-title>
+        <mat-panel-description class="mat-h1">
+          Всего отзывов: {{restaurant.comments.length}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-card *ngFor="let review of restaurant.comments">
+        <mat-card-title class="mat-h1">Аноним</mat-card-title>
+        <mat-card-content>
+          <p class="mat-h2">{{review}}</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-expansion-panel>
+  </div>
 </div>
