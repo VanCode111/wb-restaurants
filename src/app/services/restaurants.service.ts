@@ -62,4 +62,12 @@ export class RestaurantsService {
   checkNulls(value: any) {
     return value ? value : null
   }
+
+  setFavoriteRestaurant(userId: string, restaurantId: string){
+    let requestBody = {
+      userId: userId,
+      restaurantId: restaurantId
+    }
+    return this.http.post(`${environment.apiUrl}/favorites`, requestBody)
+  }
 }

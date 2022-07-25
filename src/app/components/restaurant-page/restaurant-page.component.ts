@@ -34,6 +34,7 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
     const subscriptionUser = this.authService.currentUser$.subscribe((user: User | null) => {
       this.currentUser = user;
       subscriptionUser.unsubscribe();
+
     });
 
     this.restaurants$ = this.restaurantsService.getOneRestaurant(this.id).subscribe((data) => {
@@ -44,13 +45,13 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
     )
   }
 
-  checkUser(): void {
+   checkUser(): void {
     if (!this.currentUser) {
       this.toastr.error('Для добавления ресторана в раздел "Хочу посетить" необходимо войти в систему',
-        'Неавторизированный пользователь');
+        'Неавторизованный пользователь');
       return
     }
-    //Логика добавления ресторана в список "Хочу посетить"
+    this.restaurantsService.setFavoriteRestaurant(this.currentUser.uid, this.restaurant.id)
   }
 
   ngOnDestroy(): void {
