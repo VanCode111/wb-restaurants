@@ -1,23 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {RestaurantsService} from "../../services/restaurants.service";
+import {Restaurant, RestaurantsService} from "../../services/restaurants.service";
 import {Subscription} from "rxjs";
-
-export interface Restaurant {
-  id: string
-  name: string
-  image: string
-  address: string
-  time: {
-    weekdays: string
-    weekends: string
-  }
-  kitchens: string[]
-  rating: number
-  menuLink?: string
-  averageCheck: number
-  cost: number
-  comments: string[]
-}
+import {PageEvent} from "@angular/material/paginator";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-restaurants-list',
@@ -25,27 +10,38 @@ export interface Restaurant {
   styleUrls: ['./restaurants-list.component.scss']
 })
 export class RestaurantsListComponent implements OnInit, OnDestroy {
-
   restaurants: Restaurant[] = []
+  length = 0
   restaurants$: Subscription | null = null
-  restaurantsInit$: Subscription | null = null
-  isLoading = true
+  params$: Subscription | null = null
+  loading$ = this.restaurantsService.loading$
+  error = ''
 
-  constructor(private restaurantsService: RestaurantsService) {
+  constructor(private restaurantsService: RestaurantsService, private router: Router, private route: ActivatedRoute) {
+  }
+
+  page(e: PageEvent) {
+    this.router.navigate([''],
+      {
+        queryParams: {p: this.restaurantsService.checkNulls(e.pageIndex + 1), limit: 5},
+        queryParamsHandling: 'merge'
+      })
   }
 
   ngOnInit(): void {
-    this.restaurantsInit$ = this.restaurantsService.getAllRestaurants()
-      .subscribe((data) => this.restaurantsService.rests.next(data))
-
-    this.restaurants$ = this.restaurantsService.rests.subscribe((data: any) => {
-      this.restaurants = data
-      this.isLoading = false
-    })
+    this.params$ = this.route.queryParams
+      .subscribe(data => {
+        this.restaurants$ = this.restaurantsService.getRestaurants(data)
+          .subscribe(({data, length}) => {
+              this.restaurants = data
+              this.length = length > 0 ? Math.round(length / 5) : 1
+            }
+          )
+      })
   }
 
   ngOnDestroy() {
     this.restaurants$?.unsubscribe()
-    this.restaurantsInit$?.unsubscribe()
+    this.restaurants$?.unsubscribe()
   }
 }

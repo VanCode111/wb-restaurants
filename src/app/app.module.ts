@@ -26,6 +26,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {AngularFireModule} from "@angular/fire/compat";
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HeaderComponent} from './components/header/header.component';
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {ApiInterceptor} from "./services/api.interceptor";
 
 @NgModule({
   declarations: [
@@ -61,8 +63,13 @@ import {HeaderComponent} from './components/header/header.component';
     MatSelectModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: ApiInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {
