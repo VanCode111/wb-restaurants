@@ -6,12 +6,13 @@ import {RestaurantPageComponent} from "./components/restaurant-page/restaurant-p
 import {MainPageComponent} from "./components/main-page/main-page.component";
 
 const routes: Routes = [
-  {path: '', component: MainPageComponent, pathMatch: "full"},
-  // {path: 'restaurants', component: RestaurantsComponent},
-  // {path: 'profile', component: ProfileComponent}
+  {path: 'restaurants', component: MainPageComponent},
+  // {path: 'profile', component: ProfileComponent},
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
-  {path: 'restaurant/:id', component: RestaurantPageComponent}
+  {path: 'restaurant/:id', component: RestaurantPageComponent},
+  {path: '', redirectTo: 'restaurants', pathMatch: "full"},
+  {path: '**', redirectTo: 'restaurants'}
 ];
 
 @NgModule({

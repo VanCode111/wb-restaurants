@@ -31,6 +31,7 @@ import {AngularFireModule} from "@angular/fire/compat";
 import {MatSelectModule} from "@angular/material/select";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {HttpClientModule} from "@angular/common/http";
+import {ToastrModule} from "ngx-toastr";
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import {HttpClientModule} from "@angular/common/http";
     MatSelectModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

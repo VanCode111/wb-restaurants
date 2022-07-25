@@ -1,7 +1,7 @@
 <mat-card class="restaurant-card" *ngIf="item">
   <mat-card-header class="restaurant-card__header">
     <mat-card-title>
-      <a [routerLink]="['restaurant', item.id]" class="restaurant-card__link">
+      <a [routerLink]="['../restaurant', item.id]" class="restaurant-card__link">
         {{item.name}}
       </a>
     </mat-card-title>

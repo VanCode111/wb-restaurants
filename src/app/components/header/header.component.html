@@ -4,11 +4,11 @@
       <img class="header-image" src="./assets/logo.png"/>
     </a>
     <nav class="links">
-      <a routerLink="" routerLinkActive="active">
+      <a routerLink="restaurants" routerLinkActive="active">
         <mat-icon fontIcon="restaurant_menu" color="accent"></mat-icon>
         Рестораны
       </a>
-      <a routerLink="profile" routerLinkActive="active">
+      <a routerLink="profile" routerLinkActive="active" *ngIf="currentUser">
         <mat-icon fontIcon="home" color="accent"></mat-icon>
         Профиль
       </a>
@@ -30,3 +30,4 @@
       </button>
     </nav>
   </div>
+</div>

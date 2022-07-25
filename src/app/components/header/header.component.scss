@@ -19,9 +19,15 @@
 
 .links a {
   text-decoration: none;
-  padding-left: 20px;
+  padding: 20px;
   color: #000;
+
+  &.active{
+      color: blueviolet;
+  }
 }
+
+
 
 .restaurant-field {
 }
@@ -39,3 +45,5 @@
     flex: 0.7;
   }
 }
+
+

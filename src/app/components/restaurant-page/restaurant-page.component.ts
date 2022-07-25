@@ -1,8 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import {AuthService} from 'src/app/services/auth.service';
 import {ActivatedRoute} from "@angular/router";
 import {Restaurant, RestaurantsService} from "../../services/restaurants.service";
 import {Subscription} from "rxjs";
+import {User} from "@angular/fire/auth";
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-restaurant-page',
@@ -16,31 +18,42 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
   panelOpenState = false
   loading: boolean
   id: string
+  currentUser: User | null = null;
 
-  constructor(private AuthService: AuthService,
+  constructor(private authService: AuthService,
               private activateRoute: ActivatedRoute,
-              private restaurantsService: RestaurantsService) {
+              private restaurantsService: RestaurantsService,
+              private toastr: ToastrService) {
     this.loading = false;
-    this.id=activateRoute.snapshot.params['id']
+    this.id = activateRoute.snapshot.params['id']
   }
 
   ngOnInit(): void {
     this.loading = true;
-    const subscription = this.AuthService.currentUser.subscribe(() => {
-      this.loading = false;
-      subscription.unsubscribe();
+
+    const subscriptionUser = this.authService.currentUser$.subscribe((user: User | null) => {
+      this.currentUser = user;
+      subscriptionUser.unsubscribe();
     });
 
     this.restaurants$ = this.restaurantsService.getOneRestaurant(this.id).subscribe((data) => {
         this.restaurant = data
         this.starArray = new Array(Math.floor(this.restaurant.rating))
+        this.loading = false;
       }
     )
   }
 
+  checkUser(): void {
+    if (!this.currentUser) {
+      this.toastr.error('Для добавления ресторана в раздел "Хочу посетить" необходимо войти в систему',
+        'Неавторизированный пользователь');
+      return
+    }
+    //Логика добавления ресторана в список "Хочу посетить"
+  }
 
-
-  ngOnDestroy():void {
+  ngOnDestroy(): void {
     this.restaurants$?.unsubscribe()
   }
 }
