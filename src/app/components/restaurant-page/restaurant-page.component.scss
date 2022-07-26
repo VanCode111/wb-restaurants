@@ -87,15 +87,18 @@
   padding: 10px;
   border-radius: 10px;
   background: #ffffff;
-
   transition: all 1s ease;
-
 }
 .mat-button:hover{
   //background: linear-gradient(290deg, rgb(255, 255, 255) 0%, rgba(166, 56, 244, 1) 100%);
   background: #7912be;
   color: white;
   transition: all 1s ease;
+}
+.mat-button:disabled{
+  transition: none;
+  color: black;
+  background: #919090;
 }
 
 

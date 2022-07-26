@@ -19,6 +19,7 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
   loading: boolean
   id: string
   currentUser: User | null = null;
+  followButtonState: boolean = false
 
   constructor(private authService: AuthService,
               private activateRoute: ActivatedRoute,
@@ -43,6 +44,13 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
         this.loading = false;
       }
     )
+
+    this.restaurantsService.getFavoriteRestaurant(this.currentUser?.uid, this.restaurant.id)
+    .subscribe((data: any) => {
+     if (data.length()) {
+       this.followButtonState = (!!data)
+     }
+    })
   }
 
    checkUser(): void {
@@ -51,7 +59,14 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
         'Неавторизованный пользователь');
       return
     }
-    this.restaurantsService.setFavoriteRestaurant(this.currentUser.uid, this.restaurant.id)
+    const response = this.restaurantsService.setFavoriteRestaurant(this.currentUser.uid, this.restaurant.id).subscribe(
+      () => {
+        this.followButtonState = true
+        response.unsubscribe()
+      },
+      err => {this.toastr.error('Не удалось добавить ресторан в "Хочу посетить"', "Неудача")}
+    )
+
   }
 
   ngOnDestroy(): void {

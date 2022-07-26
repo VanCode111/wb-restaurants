@@ -62,7 +62,7 @@
             </div>
           </mat-grid-tile>
           <mat-grid-tile colspan="2" rowspan="1">
-            <button mat-button (click)="checkUser()"> Добавить в "Хочу посетить"
+            <button mat-button (click)="checkUser()" [disabled]="followButtonState"> Добавить в "Хочу посетить"
               <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="favorite" color="warn"></mat-icon>
             </button>
           </mat-grid-tile>

@@ -53,7 +53,7 @@ export class RestaurantsService {
     return this.http
       .get<RestaurantsApiResponse>(`${environment.apiUrl}/restaurants?${qs.stringify(params, {filter: this.filter})}`)
   }
-  
+
   getOneRestaurant(id: string): Observable<Restaurant> {
     return this.http
       .get<Restaurant>(`${environment.apiUrl}/restaurants/${id}`)
@@ -69,5 +69,9 @@ export class RestaurantsService {
       restaurantId: restaurantId
     }
     return this.http.post(`${environment.apiUrl}/favorites`, requestBody)
+  }
+
+  getFavoriteRestaurant(userId: string, restaurantId: string){
+    return this.http.get(`${environment.apiUrl}/favorites?userId=${userId}&restaurantId=${restaurantId}`)
   }
 }
