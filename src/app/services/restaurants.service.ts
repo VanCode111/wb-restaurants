@@ -123,7 +123,7 @@ export class RestaurantsService {
     }
     return this.http.post<Review>(`${environment.apiUrl}/comments`, requestBody)
     };
-  
+
   getReviews(restaurantId: string): Observable<Review[]> {
     return this.http.get<Review[]>(`${environment.apiUrl}/comments?${restaurantId}`);
   }
