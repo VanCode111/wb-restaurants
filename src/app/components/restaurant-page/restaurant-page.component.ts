@@ -58,7 +58,7 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
 
     this.loading = true;
 
-    // this.forkQuery$ = forkJoin(
+    // forkJoin(
     //   {
     //     auth: this.authService.currentUser$.pipe(catchError(error => of(error))),
     //     oneRestaurant: this.restaurantsService.getOneRestaurant(this.id).pipe(catchError(error => of(error))),
@@ -85,7 +85,7 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
     //   this.loading = false;
     // })
 
-    this.subscriptionRestaurants$ = this.restaurantsService.getOneRestaurant(this.id).subscribe((data) => { // 1
+    this.subscriptionRestaurants$ = this.restaurantsService.getOneRestaurant(this.id).subscribe((data) => {
         this.restaurant = data
         this.starArray = new Array(Math.floor(this.restaurant.rating))
         this.loading = false;
@@ -105,18 +105,9 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
       }
     });
 
-    // this.restaurantsService.getFavoriteRestaurant(user!.uid, this.id) // ne vidit restoran 3
-    //     .subscribe((data: ResponseFavorite[]) => {
-    //       if (data.length) {
-    //         this.followButtonState = (!!data)
-    //         this.followId = data[0].id
-    //       }
-    //     })
-
-
     this.subscriptionReviews$ = this.restaurantsService.getReviews(this.id).subscribe(array => {
       this.reviews = array
-    }) //4
+    })
 
 
   }
