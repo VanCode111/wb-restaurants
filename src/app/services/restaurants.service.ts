@@ -27,6 +27,14 @@ export interface Restaurant {
   mainKitchen: string
 }
 
+export interface Review {
+  createdAt: Date
+  userId: string
+  text: string
+  rating: number
+  restaurantId: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -53,7 +61,7 @@ export class RestaurantsService {
     return this.http
       .get<RestaurantsApiResponse>(`${environment.apiUrl}/restaurants?${qs.stringify(params, {filter: this.filter})}`)
   }
-  
+
   getOneRestaurant(id: string): Observable<Restaurant> {
     return this.http
       .get<Restaurant>(`${environment.apiUrl}/restaurants/${id}`)
@@ -61,5 +69,41 @@ export class RestaurantsService {
 
   checkNulls(value: any) {
     return value ? value : null
+  }
+
+  setFavoriteRestaurant(userId: string, restaurant: Restaurant){
+    let requestBody = {
+      userId: userId,
+      restaurantId: restaurant.id,
+      restaurant: restaurant
+    }
+    return this.http.post(`${environment.apiUrl}/favorites`, requestBody)
+  }
+
+  getFavoriteRestaurant(userId: string, restaurantId: string){
+    const params = {
+      userId: userId,
+      restaurantId: restaurantId
+    }
+    return this.http.get(`${environment.apiUrl}/favorites`, {params})
+  }
+
+  deleteFavoriteRestaurant(id: string){
+    return this.http.delete(`${environment.apiUrl}/favorites/${id}`)
+  }
+
+  addReviewOnServer(review: Review){
+    const requestBody = {
+      createdAt: review.createdAt,
+      userId: review.userId,
+      text: review.text,
+      rating: review.rating,
+      restaurantId: review.restaurantId
+    }
+    return this.http.post(`${environment.apiUrl}/comments`, requestBody)
+  }
+
+  getReviews(): Observable<Review[]> {
+    return this.http.get<Review[]>(`${environment.apiUrl}/comments`);
   }
 }
