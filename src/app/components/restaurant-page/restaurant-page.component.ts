@@ -60,8 +60,8 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
 
     // forkJoin(
     //   {
-    //     auth: this.authService.currentUser$.pipe(catchError(error => of(error))),
-    //     oneRestaurant: this.restaurantsService.getOneRestaurant(this.id).pipe(catchError(error => of(error))),
+    //     oneRestaurant: this.restaurantsService.getReviews(this.id).pipe(catchError(error => of(error))),
+    //     reviews: this.restaurantsService.getOneRestaurant(this.id).pipe(catchError(error => of(error))),
     //   }).pipe(
     //     map((response: any) => {
     //       this.currentUser = response.auth
@@ -69,12 +69,6 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
     //       this.starArray = new Array(Math.floor(this.restaurant.rating))
     //       console.log("map after fork")
     //     }),
-    //     mergeMap(() => {
-    //       const reviews$ = this.restaurantsService.getReviews(this.restaurant.id)
-    //       const favoriteRestaurant$ = this.restaurantsService.getFavoriteRestaurant(this.currentUser!.uid, this.restaurant.id)
-    //       console.log("Mergemap after fork")
-    //       return forkJoin([reviews$, favoriteRestaurant$])
-    //     })
     // ).subscribe( result => {
     //   console.log("next")
     //   this.reviews = result[0]
@@ -97,7 +91,6 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
         return this.restaurantsService.getFavoriteRestaurant(this.currentUser!.uid, this.id)
       })
     ).subscribe((favorite: ResponseFavorite[]) => {
-      console.log(favorite)
       if (favorite.length) {
         this.followButtonState = true
         this.followId = favorite[0].id

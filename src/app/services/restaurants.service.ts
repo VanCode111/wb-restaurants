@@ -56,7 +56,7 @@ export type queryParams = {
   providedIn: 'root',
 })
 export class RestaurantsService {
-  filter = (prefix: string, value: string) => value || undefined
+  filter = (prefix: string, value: string) => value || undefined // Из-за этого ошибка в src/app/components/filters/filters.component.ts:69:39
   private data = new ReplaySubject<queryParams>(2)
   public readonly data$ = this.data.asObservable()
   private _loading = new BehaviorSubject<boolean>(false);
@@ -85,8 +85,12 @@ export class RestaurantsService {
     this.data.next(params)
   }
 
-  checkNulls(value: any) {
-    return value ? value : null;
+  checkNulls(value: any) { // Здесь тоже дофига ошибок, если не any, надо пофиксить
+    // src/app/components/search/search.component.ts:17:40
+    // src/app/components/filters/filters.component.ts:69:39
+    // Type 'null' is not assignable to type 'string | number'
+    // Type 'string | number | null' is not assignable to type 'string | number'.
+    return value || null;
   }
 
 
@@ -121,19 +125,13 @@ export class RestaurantsService {
   }
 
   addReviewOnServer(review: Review): Observable<Review> {
-    const requestBody = {
-      createdAt: review.createdAt,
-      userId: review.userId,
-      text: review.text,
-      rating: review.rating,
-      restaurantId: review.restaurantId,
-      userName: review.userName,
-      restaurantName: review.restaurantName
-    }
     return this.http.post<Review>(`${environment.apiUrl}/comments`, review)
   };
 
   getReviews(restaurantId: string): Observable<Review[]> {
-    return this.http.get<Review[]>(`${environment.apiUrl}/comments?${restaurantId}`);
+    let params = {
+      restaurantId: restaurantId
+    }
+    return this.http.get<Review[]>(`${environment.apiUrl}/comments?`, {params});
   }
 }
