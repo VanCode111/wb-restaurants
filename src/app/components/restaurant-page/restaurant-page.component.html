@@ -62,7 +62,7 @@
             </div>
           </mat-grid-tile>
           <mat-grid-tile colspan="2" rowspan="1">
-            <button mat-button (click)="checkUser()"> Добавить в "Хочу посетить"
+            <button mat-button (click)="addFollowRestaurant()"> {{followButtonText}}
               <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="favorite" color="warn"></mat-icon>
             </button>
           </mat-grid-tile>
@@ -71,7 +71,7 @@
     </mat-grid-tile>
   </mat-grid-list>
 
-  <div *ngIf="restaurant.comments.length!=0" class="margin">
+  <div class="margin">
     <mat-expansion-panel class="reviews" (opened)="panelOpenState = true"
                          (closed)="panelOpenState = false">
       <mat-expansion-panel-header>
@@ -79,13 +79,36 @@
           Отзывы о ресторане
         </mat-panel-title>
         <mat-panel-description class="mat-h1">
-          Всего отзывов: {{restaurant.comments.length}}
+          Всего отзывов: {{reviews.length}}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-card *ngFor="let review of restaurant.comments">
-        <mat-card-title class="mat-h1">Аноним</mat-card-title>
+      <mat-card class="reviews__area" *ngIf="currentUser">
+        <mat-card-title class="mat-h1">Добавить свой отзыв</mat-card-title>
         <mat-card-content>
-          <p class="mat-h2">{{review}}</p>
+          <mat-form-field appearance="fill" class="reviews__area__rate">
+              <mat-label>Оцените заведение</mat-label>
+              <mat-select [(ngModel)]="reviewRate" name="food">
+                <mat-option *ngFor="let rate of rates" [value]="rate.value">
+                  {{rate.value}}
+                </mat-option>
+              </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="reviews__area__text">
+            <mat-label>Напишите комментарий здесь...</mat-label>
+            <textarea matInput placeholder="Например: Хороший ресторан, быстрое обслуживания, вкусная еда" [(ngModel)]="reviewText"></textarea>
+          </mat-form-field>
+          <button mat-button (click)="addReview()"> Отправить свой отзыв
+          </button>
+        </mat-card-content>
+      </mat-card>
+      <mat-card *ngFor="let review of reviews " >
+        <mat-card-title class="reviews__title">
+          <p>Пользователь <i>{{review.userName}}</i></p>
+          <p>Дата написания отзыва: <i>{{review.createdAt | date}}</i></p>
+          <p>Оценка: <i>{{review.rating}}</i></p>
+        </mat-card-title>
+        <mat-card-content class="reviews__examples">
+          <p class="mat-h3">{{review.text}}</p>
         </mat-card-content>
       </mat-card>
     </mat-expansion-panel>

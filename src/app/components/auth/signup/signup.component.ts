@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseError } from '@angular/fire/app';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { finalize, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -15,7 +16,7 @@ export class SignupComponent implements OnInit {
   error!: string;
   isLoading = false;
   user$!: Subscription;
-  constructor(private AuthService: AuthService) {
+  constructor(private AuthService: AuthService, private router: Router) {
     document.title = 'Регистрация';
     this._createForm();
   }
@@ -36,7 +37,8 @@ export class SignupComponent implements OnInit {
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: () => {
-          console.log('register');
+          this.router.navigate(['/restaurants']);
+          console.log(111);
         },
         error: (err: FirebaseError) => {
           this.error = err.message;

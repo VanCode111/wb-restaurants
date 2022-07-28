@@ -1,8 +1,6 @@
 import { AuthService } from 'src/app/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
-
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,10 +14,9 @@ export class AppComponent implements OnInit {
     this.loading = false;
   }
 
-
   ngOnInit(): void {
     this.loading = true;
-    const subscription = this.AuthService.currentUser.subscribe(() => {
+    const subscription = this.AuthService.currentUser$.subscribe(() => {
       this.loading = false;
       subscription.unsubscribe();
     });
