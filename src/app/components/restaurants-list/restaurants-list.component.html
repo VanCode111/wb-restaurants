@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <div class="restaurants">
   <mat-spinner *ngIf="loading$ | async; else restList" class="spinner"></mat-spinner>
   <div *ngIf="isEmpty && !(loading$ | async)">Ничего не найдено</div>
@@ -14,19 +13,6 @@
     <div class="restaurants__list" [class.grid]="!isList">
       <app-restaurant-item *ngFor="let item of restaurants" [item]="item" [isList]="isList"></app-restaurant-item>
     </div>
-=======
-<ul class="restaurants-list">
-  <mat-spinner
-    *ngIf="loading$ | async; else restList"
-    class="spinner"
-  ></mat-spinner>
-  <div *ngIf="isEmpty && !(loading$ | async)">Ничего не найдено</div>
-  <ng-template #restList>
-    <app-restaurant-item
-      *ngFor="let item of restaurants"
-      [item]="item"
-    ></app-restaurant-item>
->>>>>>> main-page
   </ng-template>
   <mat-paginator
     [length]="length"

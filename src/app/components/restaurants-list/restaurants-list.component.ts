@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Restaurant, RestaurantsService} from "../../services/restaurants.service";
-import {catchError, map, Subscription, switchMap} from "rxjs";
+import {catchError, Subscription, switchMap} from "rxjs";
 import {PageEvent} from "@angular/material/paginator";
 import {ActivatedRoute, Router} from "@angular/router";
 
