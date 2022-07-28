@@ -34,6 +34,11 @@ export interface Review {
   rating: number
   restaurantId: string
 }
+export interface ResponseFavorite{
+  userId: string
+  restaurant: Restaurant
+  id: number
+}
 
 @Injectable({
   providedIn: 'root'
@@ -71,28 +76,28 @@ export class RestaurantsService {
     return value ? value : null
   }
 
-  setFavoriteRestaurant(userId: string, restaurant: Restaurant){
+  setFavoriteRestaurant(userId: string, restaurant: Restaurant): Observable<ResponseFavorite>{
     let requestBody = {
       userId: userId,
       restaurantId: restaurant.id,
       restaurant: restaurant
     }
-    return this.http.post(`${environment.apiUrl}/favorites`, requestBody)
+    return this.http.post<ResponseFavorite>(`${environment.apiUrl}/favorites`, requestBody)
   }
 
-  getFavoriteRestaurant(userId: string, restaurantId: string){
+  getFavoriteRestaurant(userId: string, restaurantId: string): Observable<ResponseFavorite[]>{
     const params = {
       userId: userId,
       restaurantId: restaurantId
     }
-    return this.http.get(`${environment.apiUrl}/favorites`, {params})
+    return this.http.get<ResponseFavorite[]>(`${environment.apiUrl}/favorites`, {params})
   }
 
-  deleteFavoriteRestaurant(id: string){
-    return this.http.delete(`${environment.apiUrl}/favorites/${id}`)
+  deleteFavoriteRestaurant(id: number): Observable<ResponseFavorite>{
+    return this.http.delete<ResponseFavorite>(`${environment.apiUrl}/favorites/${id}`)
   }
 
-  addReviewOnServer(review: Review){
+  addReviewOnServer(review: Review): Observable<Review>{
     const requestBody = {
       createdAt: review.createdAt,
       userId: review.userId,
@@ -100,10 +105,10 @@ export class RestaurantsService {
       rating: review.rating,
       restaurantId: review.restaurantId
     }
-    return this.http.post(`${environment.apiUrl}/comments`, requestBody)
+    return this.http.post<Review>(`${environment.apiUrl}/comments`, requestBody)
   }
 
-  getReviews(): Observable<Review[]> {
-    return this.http.get<Review[]>(`${environment.apiUrl}/comments`);
+  getReviews(restaurantId: string): Observable<Review[]> {
+    return this.http.get<Review[]>(`${environment.apiUrl}/comments?${restaurantId}`);
   }
 }

@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from 'src/app/services/auth.service';
 import {ActivatedRoute} from "@angular/router";
-import {Restaurant, RestaurantsService} from "../../services/restaurants.service";
-import {forkJoin, Subscription} from "rxjs";
-import {User} from "@angular/fire/auth";
+import {ResponseFavorite, Restaurant, RestaurantsService} from "../../services/restaurants.service";
+import {catchError, forkJoin, map, mergeMap, of, Subscription} from "rxjs";
+import {user, User} from "@angular/fire/auth";
 import {ToastrService} from 'ngx-toastr';
-import { Review} from "../../services/restaurants.service";
+import {Review} from "../../services/restaurants.service";
 
 @Component({
   selector: 'app-restaurant-page',
@@ -19,6 +19,8 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
   subscriptionDeleteFavorite$: Subscription | null = null
   subscriptionAddReviews$: Subscription | null = null
   subscriptionReviews$: Subscription | null = null
+  subscriptionFavoriteRestaurant$: Subscription | null = null
+  forkQuery$: Subscription | null = null
   restaurant: Restaurant
   starArray: number[]
   panelOpenState = false
@@ -27,7 +29,7 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
   currentUser: User | null = null;
   followButtonState: boolean = false
   followButtonText: string
-  followId: string
+  followId: number
   reviewRate: number
   reviewText: string = ""
   reviews: Review[]
@@ -54,40 +56,67 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    // forkJoin(
-    //   {
-    //     auth: this.authService.currentUser$.pipe(),//Обработка ошибки,
-    //     oneRestaurant: this.restaurantsService.getOneRestaurant(this.id),
-    //     favoriteRestaurant: this.restaurantsService.getFavoriteRestaurant(this.currentUser!.uid, this.restaurant.id)
-    //   }).subscribe((respone: any) => {
-    //   this.currentUser = respone.auth;
-    //
-    //   if (respone.favoriteRestaurant.length()) {
-    //     this.followButtonState = (!!respone.favoriteRestaurant)
-    //     this.followId = respone.favoriteRestaurant.id
-    //   }
-    // })
-
     this.loading = true;
 
-    this.subscriptionUser$ = this.authService.currentUser$.subscribe((user: User | null) => {
-      this.currentUser = user;
-      // this.restaurantsService.getFavoriteRestaurant(user!.uid, this.restaurant.id) // ne vidit restoran
-      //   .subscribe((data: any) => {
-      //     if (data.length()) {
-      //       this.followButtonState = (!!data)
-      //       this.followId = data.id
-      //     }
-      //   })
-    });
+    // this.forkQuery$ = forkJoin(
+    //   {
+    //     auth: this.authService.currentUser$.pipe(catchError(error => of(error))),
+    //     oneRestaurant: this.restaurantsService.getOneRestaurant(this.id).pipe(catchError(error => of(error))),
+    //   }).pipe(
+    //     map((response: any) => {
+    //       this.currentUser = response.auth
+    //       this.restaurant = response.oneRestaurant
+    //       this.starArray = new Array(Math.floor(this.restaurant.rating))
+    //       console.log("map after fork")
+    //     }),
+    //     mergeMap(() => {
+    //       const reviews$ = this.restaurantsService.getReviews(this.restaurant.id)
+    //       const favoriteRestaurant$ = this.restaurantsService.getFavoriteRestaurant(this.currentUser!.uid, this.restaurant.id)
+    //       console.log("Mergemap after fork")
+    //       return forkJoin([reviews$, favoriteRestaurant$])
+    //     })
+    // ).subscribe( result => {
+    //   console.log("next")
+    //   this.reviews = result[0]
+    //   if(result[1].length){
+    //     this.followButtonState = !!result[1]
+    //     this.followId = result[1][0].id
+    //   }
+    //   this.loading = false;
+    // })
 
-    this.subscriptionRestaurants$ = this.restaurantsService.getOneRestaurant(this.id).subscribe((data) => {
+    this.subscriptionRestaurants$ = this.restaurantsService.getOneRestaurant(this.id).subscribe((data) => { // 1
         this.restaurant = data
         this.starArray = new Array(Math.floor(this.restaurant.rating))
         this.loading = false;
       }
     )
-    this.subscriptionReviews$ = this.restaurantsService.getReviews().subscribe(array => {this.reviews = array})
+    this.subscriptionUser$ = this.authService.currentUser$.pipe(
+      map((user: User | null) => this.currentUser = user),
+      mergeMap(() => {
+        return this.restaurantsService.getFavoriteRestaurant(this.currentUser!.uid, this.id)
+      })
+    ).subscribe((favorite: ResponseFavorite[]) => {
+      console.log(favorite)
+      if (favorite.length) {
+        this.followButtonState = true
+        this.followId = favorite[0].id
+        this.followButtonText = "Удалить из раздела 'Хочу посетить'"
+      }
+    });
+
+    // this.restaurantsService.getFavoriteRestaurant(user!.uid, this.id) // ne vidit restoran 3
+    //     .subscribe((data: ResponseFavorite[]) => {
+    //       if (data.length) {
+    //         this.followButtonState = (!!data)
+    //         this.followId = data[0].id
+    //       }
+    //     })
+
+
+    this.subscriptionReviews$ = this.restaurantsService.getReviews(this.id).subscribe(array => {
+      this.reviews = array
+    }) //4
 
 
   }
@@ -100,7 +129,7 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
     }
     if (!this.followButtonState) {
       this.subscriptionSetFavorite$ = this.restaurantsService.setFavoriteRestaurant(this.currentUser.uid, this.restaurant).subscribe(
-        (value: any) => {
+        (value: ResponseFavorite) => {
           this.followButtonState = true
           this.toastr.success('Ресторан успешно добавлен в раздел "Хочу посетить"', "Успех")
           this.followButtonText = "Удалить из раздела 'Хочу посетить'"
@@ -127,6 +156,11 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
 
   addReview(): void {
 
+    if (!this.reviewRate || !this.reviewText) {
+      this.toastr.warning('Заполните все поля', "Предупреждение")
+      return
+    }
+
     const review: Review = {
       rating: this.reviewRate,
       restaurantId: this.restaurant.id,
@@ -135,13 +169,9 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
       createdAt: new Date()
     }
 
-    if (!this.reviewRate || !this.reviewText){
-      this.toastr.warning('Заполните все поля', "Предупреждение")
-      return
-    }
     this.subscriptionAddReviews$ = this.restaurantsService.addReviewOnServer(review).subscribe(() => {
         this.toastr.success('Отзыв успешно добавлен', "Успех")
-    },
+      },
       error => {
         this.toastr.error('Не удалось добавить отзыв', "Неудача")
       })
@@ -153,6 +183,8 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
     this.subscriptionSetFavorite$?.unsubscribe()
     this.subscriptionDeleteFavorite$?.unsubscribe()
     this.subscriptionAddReviews$?.unsubscribe()
+    this.forkQuery$?.unsubscribe()
     this.subscriptionReviews$?.unsubscribe()
+    this.subscriptionFavoriteRestaurant$?.unsubscribe()
   }
 }
