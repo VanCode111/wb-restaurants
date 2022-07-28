@@ -28,17 +28,19 @@ export interface Restaurant {
 }
 
 export interface Favorites {
-  restaurant: Restaurant;
-  restaurantId: String;
-  userId: String;
+  restaurant: Restaurant
+  restaurantId: String
+  userId: String
 }
 
 export interface Review {
-  createdAt: Date;
-  userId: string;
-  text: string;
-  rating: number;
-  restaurantId: string;
+  createdAt: Date
+  userId: string
+  text: string
+  rating: number
+  restaurantId: string
+  userName: string | null
+  restaurantName: string
 }
 export interface ResponseFavorite{
   userId: string
@@ -119,9 +121,11 @@ export class RestaurantsService {
       userId: review.userId,
       text: review.text,
       rating: review.rating,
-      restaurantId: review.restaurantId
+      restaurantId: review.restaurantId,
+      userName: review.userName,
+      restaurantName: review.restaurantName
     }
-    return this.http.post<Review>(`${environment.apiUrl}/comments`, requestBody)
+    return this.http.post<Review>(`${environment.apiUrl}/comments`, review)
     };
 
   getReviews(restaurantId: string): Observable<Review[]> {

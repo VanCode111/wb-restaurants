@@ -166,7 +166,9 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
       restaurantId: this.restaurant.id,
       text: this.reviewText,
       userId: this.currentUser!.uid.toString(),
-      createdAt: new Date()
+      createdAt: new Date(),
+      userName: this.currentUser!.displayName,
+      restaurantName: this.restaurant.name
     }
 
     this.subscriptionAddReviews$ = this.restaurantsService.addReviewOnServer(review).subscribe(() => {

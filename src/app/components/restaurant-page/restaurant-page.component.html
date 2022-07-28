@@ -103,7 +103,7 @@
       </mat-card>
       <mat-card *ngFor="let review of reviews " >
         <mat-card-title class="reviews__title">
-          <p>Пользователь №<i>{{review.userId}}</i></p>
+          <p>Пользователь <i>{{review.userName}}</i></p>
           <p>Дата написания отзыва: <i>{{review.createdAt | date}}</i></p>
           <p>Оценка: <i>{{review.rating}}</i></p>
         </mat-card-title>
