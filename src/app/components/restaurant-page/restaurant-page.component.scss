@@ -74,6 +74,9 @@
     }
 
   }
+  ::ng-deep .mat-icon{
+    line-height: 20px !important;
+  }
 }
 
 .mat-display-2 {
@@ -162,7 +165,5 @@
   align-items: center;
 }
 
-::ng-deep .mat-icon{
-  line-height: 32px !important;
-}
+
 
