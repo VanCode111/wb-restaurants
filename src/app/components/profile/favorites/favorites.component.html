@@ -1,0 +1,12 @@
+<div class="favorites">
+  <div class="loading" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div class="favorites__list" *ngIf="!loading">
+    <app-restaurant-item
+      *ngFor="let favorite of favorites"
+      [item]="favorite.restaurant"
+    ></app-restaurant-item>
+  </div>
+</div>

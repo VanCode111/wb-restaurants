@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User, UserCredential } from '@angular/fire/auth';
@@ -10,16 +11,20 @@ import { User, UserCredential } from '@angular/fire/auth';
 export class HeaderComponent implements OnInit {
   currentUser: User | null = null;
 
-  constructor(private AuthService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.AuthService.currentUser$.subscribe((user: User | null) => {
+    this.authService.currentUser$.subscribe((user: User | null) => {
       console.log('current', user);
       this.currentUser = user;
     });
   }
 
   logout(): void {
-    this.AuthService.logout();
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['signin']);
+      },
+    });
   }
 }

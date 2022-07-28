@@ -4,14 +4,16 @@ import {
   authState,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
   User,
   UserCredential,
 } from '@angular/fire/auth';
-import { BehaviorSubject, from, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable, switchMap } from 'rxjs';
 
 export interface ISignIn {
   email: string;
   password: string;
+  name: string;
 }
 
 export interface ISignUp extends ISignIn {
@@ -22,23 +24,20 @@ export interface ISignUp extends ISignIn {
   providedIn: 'root',
 })
 export class AuthService {
-  currentUser = authState(this.auth);
-  curr = new BehaviorSubject<null | User>(null);
+  currentUser$ = authState(this.auth);
 
-  constructor(private auth: Auth) {
-    this.currentUser.subscribe((user) => this.curr.next(user));
-  }
-
-  get currentUser$() {
-    return this.curr;
-  }
+  constructor(private auth: Auth) {}
 
   signIn({ email, password }: ISignIn): Observable<UserCredential> {
     return from(signInWithEmailAndPassword(this.auth, email, password));
   }
 
-  signUp({ email, password }: ISignIn): Observable<UserCredential> {
-    return from(createUserWithEmailAndPassword(this.auth, email, password));
+  signUp({ email, password, name }: ISignIn): Observable<void> {
+    return from(
+      createUserWithEmailAndPassword(this.auth, email, password)
+    ).pipe(
+      switchMap(({ user }) => from(updateProfile(user, { displayName: name })))
+    );
   }
 
   logout(): Observable<void> {
