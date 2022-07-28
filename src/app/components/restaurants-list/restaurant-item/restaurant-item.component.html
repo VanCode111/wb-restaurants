@@ -1,20 +1,30 @@
 <mat-card class="restaurant-card" *ngIf="item">
-  <mat-card-header>
-    <mat-card-title>{{item.name}}</mat-card-title>
+  <mat-card-header class="restaurant-card__header">
+    <mat-card-title>
+      <a [routerLink]="['../restaurant', item.id]" class="restaurant-card__link">
+        {{item.name}}
+      </a>
+    </mat-card-title>
     <mat-card-subtitle>{{item.address}}</mat-card-subtitle>
   </mat-card-header>
-  <img class="restaurant-card__img" mat-card-image [src]="item.image">
+  <a [routerLink]="['restaurant', item.id]">
+    <img class="restaurant-card__img" mat-card-image [src]="item.image">
+  </a>
   <mat-card-content>
-    <div>
-      <span class="restaurant-card__rating">Rating: {{item.rating}}</span>
-      <span class="restaurant-card__reviews">Comments/Reviews: {{item.comments.length}}</span>
+    <div class="restaurant-card__body-header">
+      <span class="restaurant-card__rating">
+        <ng-container *ngFor="let star of stars; let i = index">
+          <mat-icon *ngIf="item.rating >= i + 0.5">{{item.rating >= i + 1 ? 'star' : 'star_half'}}</mat-icon>
+        </ng-container>
+      </span>
+      <span class="restaurant-card__reviews">{{item.comments.length}} отзывов</span>
     </div>
-    <div>
-      Кухни:
-      <span class="restaurant-card__kitchen" *ngFor="let kitchen of item.kitchens">{{kitchen}}</span>
-    </div>
-    <div>
-      <span>Cost level: {{item.cost}}</span>
+    <div class="restaurant-card__body card-body">
+      <div class="card-body__wrapper">
+        Кухни:
+        <span class="restaurant-card__kitchen" *ngFor="let kitchen of item.kitchens">{{kitchen}}</span>
+      </div>
+      <span>{{item.cost | cost}}</span>
     </div>
   </mat-card-content>
   <mat-card-actions>

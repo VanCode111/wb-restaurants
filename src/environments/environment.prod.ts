@@ -8,5 +8,6 @@ export const environment = {
     authDomain: 'wb-restaurants.firebaseapp.com',
     messagingSenderId: '1024665692430',
   },
+  apiUrl: 'https://62dd112757ac3c3f3c637b22.mockapi.io/api',
   production: true
 };

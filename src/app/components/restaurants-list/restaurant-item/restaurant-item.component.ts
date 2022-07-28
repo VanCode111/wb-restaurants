@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Restaurant} from "../restaurants-list.component";
+import {Restaurant} from "../../../services/restaurants.service";
 
 @Component({
   selector: 'app-restaurant-item',
@@ -8,11 +8,11 @@ import {Restaurant} from "../restaurants-list.component";
 })
 export class RestaurantItemComponent implements OnInit {
   @Input() item: Restaurant | null = null
+  stars: any[] = new Array(5)
 
   constructor() {
   }
 
   ngOnInit(): void {
   }
-
 }

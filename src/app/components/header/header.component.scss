@@ -2,13 +2,14 @@
   border-bottom: 1px solid #cccccc;
   height: 125px;
   display: flex;
-  position: fixed;
-  width: 100%;
+  justify-content: space-between;
+  align-items: center;
 }
+
 .container {
-  padding-left: 270px;
-  margin: 1%;
-  display: inline-flex;
+  max-width: 1460px;
+  padding: 0 30px;
+  margin: 0 auto;
 }
 
 .header-image {
@@ -16,17 +17,33 @@
   object-fit: cover;
 }
 
-.links {
-  padding-top: 25px;
-  padding-left: 700px;
-}
-
 .links a {
   text-decoration: none;
-  padding-left: 20px;
-  color: #bb0fbb;
+  padding: 20px;
+  color: #000;
+
+  &.active{
+      color: blueviolet;
+  }
 }
 
+
+
 .restaurant-field {
-  margin: 0 10%;
 }
+
+.main {
+  display: flex;
+
+  &__filters {
+    flex: 0.3;
+    margin-right: 50px;
+  }
+
+  &__list {
+    margin-left: 30px;
+    flex: 0.7;
+  }
+}
+
+
