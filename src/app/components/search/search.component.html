@@ -2,7 +2,7 @@
   <form class="search__form search-form">
     <mat-form-field class="search-form__field full-width-field" appearance="outline">
       <mat-label>Введите полное название ресторана</mat-label>
-      <input matInput (change)="search($event)"/>
+      <input matInput [(ngModel)]="value" name="search" (change)="search($event)"/>
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </form>

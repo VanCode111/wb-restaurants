@@ -2,6 +2,29 @@
   width: 100%;
   margin-bottom: 30px;
 
+  &.grid-item {
+    margin: 0;
+    max-width: 300px;
+    min-height: 382px;
+
+    .restaurant-card__img {
+      height: 150px;
+    }
+
+    .restaurant-card__body {
+      overflow: hidden;
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .restaurant-card__cost {
+      display: block;
+    }
+  }
+
   &__header {
     margin-bottom: 10px;
   }

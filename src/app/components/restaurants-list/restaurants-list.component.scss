@@ -1,8 +1,32 @@
-.restaurants-list {
+.restaurants {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0;
+
+  &__list {
+    &.grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 15px;
+    }
+  }
+
+  &__btns {
+    margin-bottom: 20px;
+  }
+
+  &__btn {
+    padding: 0 10px;
+    min-width: unset;
+
+    &.active {
+      background-color: #e0dfdf;
+    }
+
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
+  }
 }
 
 .spinner {

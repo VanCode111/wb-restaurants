@@ -1,8 +1,18 @@
-<ul class="restaurants-list">
+<div class="restaurants">
   <mat-spinner *ngIf="loading$ | async; else restList" class="spinner"></mat-spinner>
   <div *ngIf="isEmpty && !(loading$ | async)">Ничего не найдено</div>
   <ng-template #restList>
-    <app-restaurant-item *ngFor="let item of restaurants" [item]="item"></app-restaurant-item>
+    <div class="restaurants__btns" *ngIf="!isEmpty && !(loading$ | async)">
+      <button mat-button class="restaurants__btn" (click)="isList = true" [class.active]="isList">
+        <mat-icon>reorder</mat-icon>
+      </button>
+      <button mat-button class="restaurants__btn" (click)="isList = false" [class.active]="!isList">
+        <mat-icon>grid_on</mat-icon>
+      </button>
+    </div>
+    <div class="restaurants__list" [class.grid]="!isList">
+      <app-restaurant-item *ngFor="let item of restaurants" [item]="item" [isList]="isList"></app-restaurant-item>
+    </div>
   </ng-template>
   <mat-paginator
     [length]="length"
@@ -11,4 +21,4 @@
     (page)="page($event)"
     aria-label="Select page">
   </mat-paginator>
-</ul>
+</div>

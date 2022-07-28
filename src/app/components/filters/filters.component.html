@@ -1,10 +1,10 @@
-<div>
+<div class="filters">
   <p>Сортировка</p>
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="filters-sort">
     <mat-label>Сортировка</mat-label>
     <select matNativeControl (change)="sortRestaurants($event)">
-      <option *ngFor="let option of sortSelect" [value]="option.field + '-' + option.value"
-              [selected]="selectedSort === option.value">{{ option.label }}</option>
+      <option *ngFor="let option of sortSelect" [value]="option.id"
+              [selected]="selectedSort === option.id">{{ option.label }}</option>
     </select>
   </mat-form-field>
   <p>Фильтры</p>

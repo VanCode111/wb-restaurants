@@ -8,6 +8,7 @@ import {Restaurant} from "../../../services/restaurants.service";
 })
 export class RestaurantItemComponent implements OnInit {
   @Input() item: Restaurant | null = null
+  @Input() isList: boolean = false
   stars: any[] = new Array(5)
 
   constructor() {

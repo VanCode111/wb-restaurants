@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RestaurantsService} from "../../services/restaurants.service";
 import {FormControl, FormGroup} from "@angular/forms";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-filters',
@@ -11,26 +11,38 @@ import {Router} from "@angular/router";
 export class FiltersComponent implements OnInit {
   sortSelect = [
     {
+      id: 1,
       label: 'По убыванию рейтинга',
-      field: 'rating',
-      value: 'desc'
+      sort: {
+        sortBy: 'rating',
+        order: 'desc'
+      }
     },
     {
+      id: 2,
       label: 'По возрастанию рейтинга',
-      field: 'rating',
-      value: 'asc'
+      sort: {
+        sortBy: 'rating',
+        order: 'asc'
+      }
     },
     {
+      id: 3,
       label: 'По возрастанию цены',
-      field: 'averageCheck',
-      value: 'asc'
+      sort: {
+        order: 'asc',
+        sortBy: 'averageCheck',
+      }
     }, {
+      id: 4,
       label: 'По убыванию цены',
-      field: 'averageCheck',
-      value: 'desc'
+      sort: {
+        sortBy: 'averageCheck',
+        order: 'desc'
+      }
     }
   ]
-  selectedSort = this.sortSelect[0].value;
+  selectedSort: number | null = this.sortSelect[0].id;
 
   kitchens = ['Итальянская', 'Японская', 'Китайская']
 
@@ -39,15 +51,12 @@ export class FiltersComponent implements OnInit {
     city: new FormControl(),
   });
 
-  constructor(private restaurantsService: RestaurantsService, private router: Router) {
+  constructor(private restaurantsService: RestaurantsService, private router: Router, private route: ActivatedRoute) {
   }
 
   sortRestaurants(e: any) {
-    const obj = e.target.value.split('-')
-    const sort = {
-      sortBy: this.restaurantsService.checkNulls(obj[0]),
-      order: this.restaurantsService.checkNulls(obj[1]),
-    }
+    const sort = this.sortSelect.find((s) => s.id === +e.target.value)!.sort
+    this.restaurantsService.setParams(sort)
     this.router.navigate([''], {queryParams: sort, queryParamsHandling: 'merge'})
   }
 
@@ -56,10 +65,17 @@ export class FiltersComponent implements OnInit {
       mainKitchen: this.restaurantsService.checkNulls(this.filtersForm.get('mainKitchen')?.value),
       city: this.restaurantsService.checkNulls(this.filtersForm.get('city')?.value)
     }
+
+    this.restaurantsService.setParams(filters)
+
     this.router.navigate([''], {queryParams: filters, queryParamsHandling: 'merge'})
+
   }
 
   ngOnInit(): void {
+    this.filtersForm.controls.city.setValue(this.route.snapshot.queryParamMap.get('city'))
+    this.filtersForm.controls.mainKitchen.setValue(this.route.snapshot.queryParamMap.get('mainKitchen'))
+    this.selectedSort = +!this.route.snapshot.queryParamMap.get('sortBy')
   }
 
   ngOnDestroy() {
