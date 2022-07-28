@@ -1,0 +1,15 @@
+<div class="profile">
+  <div class="profile__container">
+    <div class="profile__content">
+      <h1 class="profile__username">
+        {{ userName }}
+      </h1>
+      <mat-tab-group *ngIf="user">
+        <mat-tab label="Хочу посетить">
+          <app-favorites [user]="user"></app-favorites>
+        </mat-tab>
+        <mat-tab label="Отзывы"> Отзывы </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

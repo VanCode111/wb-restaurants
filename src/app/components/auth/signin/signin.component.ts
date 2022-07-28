@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AuthService } from './../../../services/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -15,7 +16,7 @@ export class SigninComponent implements OnInit {
   error!: string;
   isLoading = false;
   user$!: Subscription;
-  constructor(private AuthService: AuthService) {
+  constructor(private AuthService: AuthService, private router: Router) {
     document.title = 'Авторизация';
     this._createForm();
   }
@@ -35,7 +36,7 @@ export class SigninComponent implements OnInit {
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: () => {
-          console.log('login');
+          this.router.navigate(['restaurants']);
         },
         error: (err: FirebaseError) => {
           this.error = err.message;
