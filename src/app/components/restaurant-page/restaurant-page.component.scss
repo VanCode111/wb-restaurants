@@ -7,6 +7,9 @@
 
   &__title {
     padding: 1%;
+    a {
+      text-decoration: none;
+    }
   }
 
   &__image {
@@ -73,6 +76,8 @@
       list-style-type: none;
     }
 
+
+
   }
   ::ng-deep .mat-icon{
     line-height: 20px !important;
@@ -129,6 +134,16 @@
       display: block;
       width: 200px;
     }
+
+  }
+
+  &__button{
+    width: 250px;
+    height: 60px
+  }
+
+  .mat-spinner{
+    margin: 0 auto;
   }
   .mat-card{
     margin: 1% auto;

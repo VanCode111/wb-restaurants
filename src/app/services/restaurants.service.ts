@@ -45,6 +45,7 @@ export interface Review {
 export interface ResponseFavorite {
   userId: string
   restaurant: Restaurant
+  restaurantId: string
   id: number
 }
 

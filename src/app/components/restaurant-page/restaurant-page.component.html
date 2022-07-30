@@ -7,11 +7,13 @@
     <mat-grid-tile-header>
       <div class="restaurant-page__title">
         <p class="mat-display-2">{{restaurant.name}}
-          <mat-icon *ngFor="let key of starArray" aria-hidden="false" aria-label="Example home icon" fontIcon="star">
+          <mat-icon *ngFor="let key of starArray"
+                    aria-hidden="false" aria-label="Example home icon" fontIcon="star" color="accent">
           </mat-icon>
-          <mat-icon *ngIf="restaurant.rating * 2 % 2 == 1" aria-hidden="false" aria-label="Example home icon" fontIcon="star_half"></mat-icon>
+          <mat-icon *ngIf="restaurant.rating * 2 % 2 == 1" aria-hidden="false" aria-label="Example home icon"
+                    fontIcon="star_half" color="accent"></mat-icon>
         </p>
-        <p class="mat-display-1"><b>{{restaurant.address}}</b></p>
+        <a [href]="mapLink" target="_blank" class="mat-display-1"><b>{{restaurant.address}}</b></a>
       </div>
     </mat-grid-tile-header>
     <mat-grid-tile colspan="1" rowspan="1">
@@ -33,7 +35,7 @@
           <mat-grid-tile colspan="1" rowspan="1" class="restaurant-page__description__tile">
             <div class="no-marks">
               <li>
-                <b>Цена</b>
+                <b>Цена:</b>
                 <span [ngSwitch]="restaurant.cost">
                   <span *ngSwitchCase='1'> ₽</span>
                   <span *ngSwitchCase='2'> ₽₽</span>
@@ -43,7 +45,7 @@
                   <span *ngSwitchDefault>Нет данных</span>
                 </span>
               </li>
-              <li><b>Средний чек</b> {{restaurant.averageCheck}} ₽
+              <li><b>Средний чек:</b> {{restaurant.averageCheck}} ₽
               </li>
             </div>
           </mat-grid-tile>
@@ -86,22 +88,25 @@
         <mat-card-title class="mat-h1">Добавить свой отзыв</mat-card-title>
         <mat-card-content>
           <mat-form-field appearance="fill" class="reviews__area__rate">
-              <mat-label>Оцените заведение</mat-label>
-              <mat-select [(ngModel)]="reviewRate" name="food">
-                <mat-option *ngFor="let rate of rates" [value]="rate.value">
-                  {{rate.value}}
-                </mat-option>
-              </mat-select>
+            <mat-label>Оцените заведение</mat-label>
+            <mat-select [(ngModel)]="reviewRate" name="food">
+              <mat-option *ngFor="let rate of rates" [value]="rate.value">
+                {{rate.value}}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
           <mat-form-field appearance="fill" class="reviews__area__text">
             <mat-label>Напишите комментарий здесь...</mat-label>
-            <textarea matInput placeholder="Например: Хороший ресторан, быстрое обслуживания, вкусная еда" [(ngModel)]="reviewText"></textarea>
+            <textarea matInput placeholder="Например: Хороший ресторан, быстрое обслуживания, вкусная еда"
+                      [(ngModel)]="reviewText"></textarea>
           </mat-form-field>
-          <button mat-button (click)="addReview()"> Отправить свой отзыв
+          <button mat-button class="reviews__button" (click)="addReview()" [disabled]="!stateReviewButton">
+            <mat-spinner diameter="35" *ngIf="!stateReviewButton" color="warn"></mat-spinner>
+            <p *ngIf="stateReviewButton">Отправить свой отзыв</p>
           </button>
         </mat-card-content>
       </mat-card>
-      <mat-card *ngFor="let review of reviews " >
+      <mat-card *ngFor="let review of reviews ">
         <mat-card-title class="reviews__title">
           <p>Пользователь <i>{{review.userName}}</i></p>
           <p>Дата написания отзыва: <i>{{review.createdAt | date}}</i></p>
