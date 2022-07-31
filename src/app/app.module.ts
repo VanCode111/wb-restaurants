@@ -35,6 +35,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ToastrModule } from 'ngx-toastr';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FavoritesComponent } from './components/profile/favorites/favorites.component';
+import { ReviewComponent } from './components/profile/reviews/review/review.component';
+import { ReviewsComponent } from './components/profile/reviews/reviews.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,8 @@ import { FavoritesComponent } from './components/profile/favorites/favorites.com
     HeaderComponent,
     ProfileComponent,
     FavoritesComponent,
+    ReviewComponent,
+    ReviewsComponent,
   ],
   imports: [
     BrowserModule,
