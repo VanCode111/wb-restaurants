@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {RestaurantsService} from "../../services/restaurants.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
@@ -10,14 +9,13 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class SearchComponent implements OnInit, OnDestroy {
   value: string | null = ''
 
-  constructor(private restaurantsService: RestaurantsService, private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router, private route: ActivatedRoute) {
   }
 
   search(e: any) {
-    this.restaurantsService.setParams({search: this.restaurantsService.checkNulls(e.target.value)})
     this.router.navigate([''],
       {
-        queryParams: {search: this.restaurantsService.checkNulls(e.target.value)},
+        queryParams: {search: e.target.value || null},
         queryParamsHandling: ''
       })
   }

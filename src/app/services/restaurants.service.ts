@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, ReplaySubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 
@@ -57,9 +57,6 @@ export type queryParams = {
   providedIn: 'root',
 })
 export class RestaurantsService {
-  filter = (prefix: string, value: string) => value || undefined // Из-за этого ошибка в src/app/components/filters/filters.component.ts:69:39
-  private data = new ReplaySubject<queryParams>(2)
-  public readonly data$ = this.data.asObservable()
   private _loading = new BehaviorSubject<boolean>(false);
   public readonly loading$ = this._loading.asObservable();
 
@@ -75,26 +72,13 @@ export class RestaurantsService {
   }
 
   getRestaurants(params?: queryParams): Observable<RestaurantsApiResponse> {
-    return this.http.get<RestaurantsApiResponse>(`${environment.apiUrl}/restaurants?p=1&l=6`, {params})
+    return this.http.get<RestaurantsApiResponse>(`${environment.apiUrl}/restaurants?l=6`, {params})
   }
 
   getOneRestaurant(id: string): Observable<Restaurant> {
     return this.http.get<Restaurant>(`${environment.apiUrl}/restaurants/${id}`)
   }
-
-  setParams(params: queryParams) {
-    this.data.next(params)
-  }
-
-  checkNulls(value: any) { // Здесь тоже дофига ошибок, если не any, надо пофиксить
-    // src/app/components/search/search.component.ts:17:40
-    // src/app/components/filters/filters.component.ts:69:39
-    // Type 'null' is not assignable to type 'string | number'
-    // Type 'string | number | null' is not assignable to type 'string | number'.
-    return value || null;
-  }
-
-
+  
   setFavoriteRestaurant(userId: string, restaurant: Restaurant): Observable<ResponseFavorite> {
     let requestBody = {
       userId: userId,

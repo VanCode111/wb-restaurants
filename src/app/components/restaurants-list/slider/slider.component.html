@@ -1,0 +1,19 @@
+<div class="slider">
+  <swiper
+    [config]="config"
+    (swiper)="onSwiper($event)"
+    #swiper
+  >
+    <ng-template swiperSlide *ngFor="let restaurant of restaurantsList">
+      <div class="slider-item">
+        <app-restaurant-item [item]="restaurant"></app-restaurant-item>
+      </div>
+    </ng-template>
+  </swiper>
+  <button mat-flat-button color="primary" class="nav-btn nav-btn--prev" (click)="slidePrev()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+  <button mat-flat-button color="primary" class="nav-btn nav-btn--next" (click)="slideNext()">
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+</div>
