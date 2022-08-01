@@ -1,8 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Restaurant, RestaurantsService} from "../../services/restaurants.service";
-import {catchError, Subscription, switchMap} from "rxjs";
+import {BehaviorSubject, catchError, Subscription, switchMap} from "rxjs";
 import {PageEvent} from "@angular/material/paginator";
 import {ActivatedRoute, Router} from "@angular/router";
+
+export type image = {
+  src: string,
+  alt: string
+}
 
 @Component({
   selector: 'app-restaurants-list',
@@ -17,8 +22,10 @@ export class RestaurantsListComponent implements OnInit, OnDestroy {
   params$: Subscription | null = null
   loading$ = this.restaurantsService.loading$
   error = ''
-  isList = true
-  test: any[] = []
+  type: string = 'list'
+  imagesList = new BehaviorSubject<image[]>([])
+  imagesList$ = this.imagesList.asObservable()
+
 
   constructor(private restaurantsService: RestaurantsService, private router: Router, private route: ActivatedRoute) {
   }
@@ -31,10 +38,11 @@ export class RestaurantsListComponent implements OnInit, OnDestroy {
       })
   }
 
+  changeType(type: string) {
+    this.type = type
+  }
+
   ngOnInit(): void {
-    // this.restaurants$ = this.restaurantsService.data$.subscribe(data => {
-    //   console.log(data)
-    // })
     this.params$ = this.route.queryParams
       .pipe(switchMap(params => this.restaurantsService.getRestaurants(params)
         .pipe(catchError((err) => {
@@ -46,6 +54,7 @@ export class RestaurantsListComponent implements OnInit, OnDestroy {
         this.restaurants = data
         this.length = length > 1 ? Math.ceil(length / 6) : 1
         this.isEmpty = length < 1
+        this.imagesList.next(data.map(({image, name}) => ({src: image, alt: name})))
       })
   }
 

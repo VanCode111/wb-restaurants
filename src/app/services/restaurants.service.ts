@@ -74,7 +74,7 @@ export class RestaurantsService {
   }
 
   getRestaurants(params?: queryParams): Observable<RestaurantsApiResponse> {
-    return this.http.get<RestaurantsApiResponse>(`${environment.apiUrl}/restaurants?p=1&l=6`, {params})
+    return this.http.get<RestaurantsApiResponse>(`${environment.apiUrl}/restaurants?l=6`, {params})
   }
 
   getOneRestaurant(id: string): Observable<Restaurant> {

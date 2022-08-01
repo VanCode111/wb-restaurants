@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "swiper/swiper-bundle.min.css";
+
 * {
   box-sizing: border-box;
 }
@@ -19,4 +21,18 @@ body {
 .full-width-field {
   display: block;
   width: 100%;
+}
+
+.swiper-pagination {
+  bottom: 5px !important;
+}
+
+.swiper-pagination-bullet {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+
+.swiper-pagination-bullet-active {
+  background: #673ab7 !important;
 }

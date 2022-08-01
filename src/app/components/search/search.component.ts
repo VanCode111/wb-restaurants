@@ -14,7 +14,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   search(e: any) {
-    this.restaurantsService.setParams({search: this.restaurantsService.checkNulls(e.target.value)})
     this.router.navigate([''],
       {
         queryParams: {search: this.restaurantsService.checkNulls(e.target.value)},

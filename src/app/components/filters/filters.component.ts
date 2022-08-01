@@ -12,18 +12,18 @@ export class FiltersComponent implements OnInit {
   sortSelect = [
     {
       id: 1,
-      label: 'По убыванию рейтинга',
-      sort: {
-        sortBy: 'rating',
-        order: 'desc'
-      }
-    },
-    {
-      id: 2,
       label: 'По возрастанию рейтинга',
       sort: {
         sortBy: 'rating',
         order: 'asc'
+      }
+    },
+    {
+      id: 2,
+      label: 'По убыванию рейтинга',
+      sort: {
+        sortBy: 'rating',
+        order: 'desc'
       }
     },
     {
@@ -44,11 +44,31 @@ export class FiltersComponent implements OnInit {
   ]
   selectedSort: number | null = this.sortSelect[0].id;
 
-  kitchens = ['Итальянская', 'Японская', 'Китайская']
+  kitchens = ['Итальянская', 'Японская', 'Китайская', 'Русская', 'Международная', 'Европейская']
+  cost = [
+    {
+      value: 1,
+      label: '₽'
+    }, {
+      value: 2,
+      label: '₽₽'
+    }, {
+      value: 3,
+      label: '₽₽₽'
+    },
+    {
+      value: 4,
+      label: '₽₽₽₽'
+    }, {
+      value: 5,
+      label: '₽₽₽₽₽'
+    },
+  ]
 
   filtersForm = new FormGroup({
     mainKitchen: new FormControl(),
     city: new FormControl(),
+    cost: new FormControl()
   });
 
   constructor(private restaurantsService: RestaurantsService, private router: Router, private route: ActivatedRoute) {
@@ -63,13 +83,10 @@ export class FiltersComponent implements OnInit {
   filterRestaurants() {
     const filters = {
       mainKitchen: this.restaurantsService.checkNulls(this.filtersForm.get('mainKitchen')?.value),
-      city: this.restaurantsService.checkNulls(this.filtersForm.get('city')?.value)
+      city: this.restaurantsService.checkNulls(this.filtersForm.get('city')?.value),
+      cost: this.restaurantsService.checkNulls(this.filtersForm.get('cost')?.value)
     }
-
-    this.restaurantsService.setParams(filters)
-
     this.router.navigate([''], {queryParams: filters, queryParamsHandling: 'merge'})
-
   }
 
   ngOnInit(): void {
