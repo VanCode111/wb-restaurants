@@ -17,7 +17,7 @@
     <div class="restaurant-card__body-header">
       <span class="restaurant-card__rating">
         <ng-container *ngFor="let star of stars; let i = index">
-          <mat-icon *ngIf="item.rating >= i + 0.5">{{
+          <mat-icon color="accent" *ngIf="item.rating >= i + 0.5">{{
             item.rating >= i + 1 ? "star" : "star_half"
             }}</mat-icon>
         </ng-container>

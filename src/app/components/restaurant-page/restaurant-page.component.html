@@ -13,6 +13,9 @@
           <mat-icon *ngIf="restaurant.rating * 2 % 2 == 1" aria-hidden="false" aria-label="Example home icon"
                     fontIcon="star_half" color="accent"></mat-icon>
         </p>
+        <mat-icon
+          aria-hidden="false" aria-label="Example home icon" fontIcon="place" color="accent">
+        </mat-icon>
         <a [href]="mapLink" target="_blank" class="mat-display-1"><b>{{restaurant.address}}</b></a>
       </div>
     </mat-grid-tile-header>

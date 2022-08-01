@@ -10,6 +10,13 @@
     a {
       text-decoration: none;
     }
+    .mat-icon{
+      line-height: 35px !important;
+      font-size: 29px;
+      width: 30px;
+      height: 30px;
+    }
+
   }
 
   &__image {
@@ -156,6 +163,7 @@
     padding: 2%;
     border-left: 1px solid sandybrown;
     font-size: 20px;
+
   }
   &__examples{
     border-top: 1px solid #d2cfcf;
