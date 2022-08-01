@@ -16,6 +16,8 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: url("./assets/Frame 3.png") center / cover;
+
 }
 
 .full-width-field {
@@ -31,7 +33,6 @@ body {
   width: 12px !important;
   height: 12px !important;
 }
-
 
 .swiper-pagination-bullet-active {
   background: #673ab7 !important;

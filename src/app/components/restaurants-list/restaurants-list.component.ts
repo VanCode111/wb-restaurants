@@ -33,7 +33,7 @@ export class RestaurantsListComponent implements OnInit, OnDestroy {
   page(e: PageEvent) {
     this.router.navigate([''],
       {
-        queryParams: {p: this.restaurantsService.checkNulls(e.pageIndex + 1)},
+        queryParams: {p: (e.pageIndex + 1) || null},
         queryParamsHandling: 'merge'
       })
   }

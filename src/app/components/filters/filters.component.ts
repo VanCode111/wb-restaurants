@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {RestaurantsService} from "../../services/restaurants.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -71,20 +70,19 @@ export class FiltersComponent implements OnInit {
     cost: new FormControl()
   });
 
-  constructor(private restaurantsService: RestaurantsService, private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router, private route: ActivatedRoute) {
   }
 
   sortRestaurants(e: any) {
     const sort = this.sortSelect.find((s) => s.id === +e.target.value)!.sort
-    this.restaurantsService.setParams(sort)
     this.router.navigate([''], {queryParams: sort, queryParamsHandling: 'merge'})
   }
 
   filterRestaurants() {
     const filters = {
-      mainKitchen: this.restaurantsService.checkNulls(this.filtersForm.get('mainKitchen')?.value),
-      city: this.restaurantsService.checkNulls(this.filtersForm.get('city')?.value),
-      cost: this.restaurantsService.checkNulls(this.filtersForm.get('cost')?.value)
+      mainKitchen: this.filtersForm.get('mainKitchen')?.value || null,
+      city: this.filtersForm.get('city')?.value || null,
+      cost: this.filtersForm.get('cost')?.value || null
     }
     this.router.navigate([''], {queryParams: filters, queryParamsHandling: 'merge'})
   }

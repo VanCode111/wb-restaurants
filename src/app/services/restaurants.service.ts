@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, ReplaySubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 
@@ -45,6 +45,7 @@ export interface Review {
 export interface ResponseFavorite {
   userId: string
   restaurant: Restaurant
+  restaurantId: string
   id: number
 }
 
@@ -56,9 +57,6 @@ export type queryParams = {
   providedIn: 'root',
 })
 export class RestaurantsService {
-  filter = (prefix: string, value: string) => value || undefined
-  private data = new ReplaySubject<queryParams>(2)
-  public readonly data$ = this.data.asObservable()
   private _loading = new BehaviorSubject<boolean>(false);
   public readonly loading$ = this._loading.asObservable();
 
@@ -80,16 +78,7 @@ export class RestaurantsService {
   getOneRestaurant(id: string): Observable<Restaurant> {
     return this.http.get<Restaurant>(`${environment.apiUrl}/restaurants/${id}`)
   }
-
-  setParams(params: queryParams) {
-    this.data.next(params)
-  }
-
-  checkNulls(value: any) {
-    return value ? value : null;
-  }
-
-
+  
   setFavoriteRestaurant(userId: string, restaurant: Restaurant): Observable<ResponseFavorite> {
     let requestBody = {
       userId: userId,
@@ -121,19 +110,13 @@ export class RestaurantsService {
   }
 
   addReviewOnServer(review: Review): Observable<Review> {
-    const requestBody = {
-      createdAt: review.createdAt,
-      userId: review.userId,
-      text: review.text,
-      rating: review.rating,
-      restaurantId: review.restaurantId,
-      userName: review.userName,
-      restaurantName: review.restaurantName
-    }
     return this.http.post<Review>(`${environment.apiUrl}/comments`, review)
   };
 
   getReviews(restaurantId: string): Observable<Review[]> {
-    return this.http.get<Review[]>(`${environment.apiUrl}/comments?${restaurantId}`);
+    let params = {
+      restaurantId: restaurantId
+    }
+    return this.http.get<Review[]>(`${environment.apiUrl}/comments?`, {params});
   }
 }
