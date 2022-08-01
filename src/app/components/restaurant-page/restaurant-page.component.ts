@@ -94,7 +94,13 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
         return this.restaurantsService.getFavoriteRestaurant(this.currentUser!.uid, this.id)
       })
     ).subscribe((favorite: ResponseFavorite[]) => {
-      if (favorite.length && favorite[0].restaurantId == this.id.toString()) {
+      let isRestaurantId = false
+      favorite.forEach(entity => {
+        isRestaurantId = entity.restaurantId == this.id.toString()
+        if (isRestaurantId)
+          return
+      })
+      if (favorite.length && isRestaurantId) {
         this.followButtonState = true
         this.followId = favorite[0].id
         this.followButtonText = "Удалить из раздела 'Хочу посетить'"
@@ -142,12 +148,12 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
 
 
   addReview(): void {
-    this.stateReviewButton = false;
+
     if (!this.reviewRate || !this.reviewText) {
       this.toastr.warning('Заполните все поля', "Предупреждение")
       return
     }
-
+    this.stateReviewButton = false;
     const review: Review = {
       rating: this.reviewRate,
       restaurantId: this.restaurant.id,
