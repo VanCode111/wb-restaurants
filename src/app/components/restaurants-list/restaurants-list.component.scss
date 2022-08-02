@@ -10,23 +10,6 @@
       grid-gap: 15px;
     }
   }
-
-  &__btns {
-    margin-bottom: 20px;
-  }
-
-  &__btn {
-    padding: 0 10px;
-    min-width: unset;
-
-    &.active {
-      background-color: #e0dfdf;
-    }
-
-    &:not(:last-child) {
-      margin-right: 5px;
-    }
-  }
 }
 
 .spinner {

@@ -1,4 +1,7 @@
-<mat-card class="restaurant-card" *ngIf="item" [class.grid-item]="!isList">
+<mat-card class="restaurant-card" *ngIf="item" [ngClass]="{
+'grid-item': type === 'grid',
+'slider-item': type === 'slider'
+}">
   <mat-card-header class="restaurant-card__header">
     <mat-card-title>
       <a

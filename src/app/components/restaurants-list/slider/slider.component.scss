@@ -1,0 +1,40 @@
+.slider {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.swiper {
+  max-width: 775px;
+  min-height: 525px;
+}
+
+.swiper-wrapper {
+}
+
+.slider-item {
+
+  &__img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+.nav-btn {
+  position: absolute;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &--prev {
+    left: 8%;
+  }
+
+  &--next {
+    right: 8%;
+  }
+}
+
+
+

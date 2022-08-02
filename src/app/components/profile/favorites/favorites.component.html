@@ -25,7 +25,6 @@
 
     <div class="favorites__list" [class.grid]="!isList">
       <app-restaurant-item
-        [isList]="isList"
         *ngFor="let favorite of favorites"
         [item]="favorite.restaurant"
       ></app-restaurant-item>

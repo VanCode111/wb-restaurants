@@ -82,7 +82,7 @@ export class RestaurantsService {
 
   getRestaurants(params?: queryParams): Observable<RestaurantsApiResponse> {
     return this.http.get<RestaurantsApiResponse>(
-      `${environment.apiUrl}/restaurants?p=1&l=6`,
+      `${environment.apiUrl}/restaurants?l=6`,
       { params }
     );
   }
@@ -97,15 +97,6 @@ export class RestaurantsService {
 
   setEditReview(review: Review): void {
     this.editedReview.next(review);
-  }
-
-  checkNulls(value: any) {
-    // Здесь тоже дофига ошибок, если не any, надо пофиксить
-    // src/app/components/search/search.component.ts:17:40
-    // src/app/components/filters/filters.component.ts:69:39
-    // Type 'null' is not assignable to type 'string | number'
-    // Type 'string | number | null' is not assignable to type 'string | number'.
-    return value || null;
   }
 
   setFavoriteRestaurant(

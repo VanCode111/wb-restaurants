@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "swiper/swiper-bundle.min.css";
+
 * {
   box-sizing: border-box;
 }
@@ -14,7 +16,7 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background: url("./assets/Frame 3.png")  center / cover;
+  background: url("./assets/Frame 3.png") center / cover;
 
 }
 
@@ -23,4 +25,15 @@ body {
   width: 100%;
 }
 
+.swiper-pagination {
+  bottom: 5px !important;
+}
 
+.swiper-pagination-bullet {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #673ab7 !important;
+}

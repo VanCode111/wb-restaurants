@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {RestaurantsService} from "../../services/restaurants.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -12,18 +11,18 @@ export class FiltersComponent implements OnInit {
   sortSelect = [
     {
       id: 1,
-      label: 'По убыванию рейтинга',
-      sort: {
-        sortBy: 'rating',
-        order: 'desc'
-      }
-    },
-    {
-      id: 2,
       label: 'По возрастанию рейтинга',
       sort: {
         sortBy: 'rating',
         order: 'asc'
+      }
+    },
+    {
+      id: 2,
+      label: 'По убыванию рейтинга',
+      sort: {
+        sortBy: 'rating',
+        order: 'desc'
       }
     },
     {
@@ -44,32 +43,48 @@ export class FiltersComponent implements OnInit {
   ]
   selectedSort: number | null = this.sortSelect[0].id;
 
-  kitchens = ['Итальянская', 'Японская', 'Китайская']
+  kitchens = ['Итальянская', 'Японская', 'Китайская', 'Русская', 'Международная', 'Европейская']
+  cost = [
+    {
+      value: 1,
+      label: '₽'
+    }, {
+      value: 2,
+      label: '₽₽'
+    }, {
+      value: 3,
+      label: '₽₽₽'
+    },
+    {
+      value: 4,
+      label: '₽₽₽₽'
+    }, {
+      value: 5,
+      label: '₽₽₽₽₽'
+    },
+  ]
 
   filtersForm = new FormGroup({
     mainKitchen: new FormControl(),
     city: new FormControl(),
+    cost: new FormControl()
   });
 
-  constructor(private restaurantsService: RestaurantsService, private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router, private route: ActivatedRoute) {
   }
 
   sortRestaurants(e: any) {
     const sort = this.sortSelect.find((s) => s.id === +e.target.value)!.sort
-    this.restaurantsService.setParams(sort)
     this.router.navigate([''], {queryParams: sort, queryParamsHandling: 'merge'})
   }
 
   filterRestaurants() {
     const filters = {
-      mainKitchen: this.restaurantsService.checkNulls(this.filtersForm.get('mainKitchen')?.value),
-      city: this.restaurantsService.checkNulls(this.filtersForm.get('city')?.value)
+      mainKitchen: this.filtersForm.get('mainKitchen')?.value || null,
+      city: this.filtersForm.get('city')?.value || null,
+      cost: this.filtersForm.get('cost')?.value || null
     }
-
-    this.restaurantsService.setParams(filters)
-
     this.router.navigate([''], {queryParams: filters, queryParamsHandling: 'merge'})
-
   }
 
   ngOnInit(): void {

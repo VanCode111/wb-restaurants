@@ -41,6 +41,10 @@ import { ReviewsComponent } from './components/profile/reviews/reviews.component
 import { EditComponent } from './components/profile/reviews/review/edit/edit.component';
 import { DefaultComponent } from './components/profile/reviews/review/default/default.component';
 
+import { GridToggleComponent } from './components/restaurants-list/grid-toggle/grid-toggle.component';
+import { SwiperModule } from 'swiper/angular';
+import { SliderComponent } from './components/restaurants-list/slider/slider.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +52,6 @@ import { DefaultComponent } from './components/profile/reviews/review/default/de
     RestaurantItemComponent,
     SigninComponent,
     SignupComponent,
-    RestaurantItemComponent,
     RestaurantPageComponent,
     SearchComponent,
     MainPageComponent,
@@ -56,13 +59,15 @@ import { DefaultComponent } from './components/profile/reviews/review/default/de
     HeaderComponent,
     CostPipe,
     HeaderComponent,
-
-    ProfileComponent,
-    FavoritesComponent,
     ReviewComponent,
-    ReviewsComponent,
+    ProfileComponent,
+    ReviewComponent,
     EditComponent,
+    ReviewsComponent,
+    FavoritesComponent,
     DefaultComponent,
+    GridToggleComponent,
+    SliderComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,6 +95,7 @@ import { DefaultComponent } from './components/profile/reviews/review/default/de
     MatPaginatorModule,
     HttpClientModule,
     ToastrModule.forRoot(),
+    SwiperModule,
   ],
   providers: [
     {
