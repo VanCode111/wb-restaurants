@@ -1,4 +1,7 @@
-import { Review } from './../../../../services/restaurants.service';
+import {
+  Review,
+  RestaurantsService,
+} from './../../../../services/restaurants.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { startAfter } from '@firebase/firestore';
 
@@ -9,27 +12,14 @@ import { startAfter } from '@firebase/firestore';
 })
 export class ReviewComponent implements OnInit {
   @Input() review: Review;
-  stars: string[] = [];
 
-  constructor() {}
+  isEdit: boolean = false;
 
-  private _generateStars() {
-    const stars: string[] = [];
-    let rating = this.review.rating;
-    for (let i = 0; i < 5; i++) {
-      if (rating >= 1) {
-        stars.push('star');
-      } else if (rating >= 0.5) {
-        stars.push('star_half');
-      } else {
-        stars.push('star_border');
-      }
-      rating--;
-    }
-    return stars;
+  constructor(private restaurantsService: RestaurantsService) {}
+
+  changeMode(isEdit: boolean): void {
+    this.isEdit = isEdit;
   }
 
-  ngOnInit(): void {
-    this.stars = this._generateStars();
-  }
+  ngOnInit(): void {}
 }

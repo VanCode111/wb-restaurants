@@ -1,5 +1,11 @@
 <div class="reviews">
-  <app-review *ngFor="let review of reviews" [review]="review">
-    {{ review.userName }}
-  </app-review>
+  <div class="reviews__wrap" *ngIf="sortedReviews">
+    <div class="reviews__cols" *ngFor="let col of [0, 1, 2]">
+      <div *ngFor="let review of sortedReviews[col]" class="reviews__review">
+        <app-review [review]="review">
+          {{ review.userName }}
+        </app-review>
+      </div>
+    </div>
+  </div>
 </div>

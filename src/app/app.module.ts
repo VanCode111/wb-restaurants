@@ -25,6 +25,7 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatMenuModule } from '@angular/material/menu';
 import { AngularFireModule } from '@angular/fire/compat';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -37,6 +38,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { FavoritesComponent } from './components/profile/favorites/favorites.component';
 import { ReviewComponent } from './components/profile/reviews/review/review.component';
 import { ReviewsComponent } from './components/profile/reviews/reviews.component';
+import { EditComponent } from './components/profile/reviews/review/edit/edit.component';
+import { DefaultComponent } from './components/profile/reviews/review/default/default.component';
 
 @NgModule({
   declarations: [
@@ -53,10 +56,13 @@ import { ReviewsComponent } from './components/profile/reviews/reviews.component
     HeaderComponent,
     CostPipe,
     HeaderComponent,
+
     ProfileComponent,
     FavoritesComponent,
     ReviewComponent,
     ReviewsComponent,
+    EditComponent,
+    DefaultComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,6 +75,7 @@ import { ReviewsComponent } from './components/profile/reviews/reviews.component
     MatInputModule,
     BrowserAnimationsModule,
     MatIconModule,
+    MatMenuModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatGridListModule,

@@ -1,6 +1,12 @@
 .reviews {
-  display: grid;
   padding: 10px;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
+
+  &__review + &__review {
+    margin-top: 20px;
+  }
+  &__wrap {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    display: grid;
+  }
 }

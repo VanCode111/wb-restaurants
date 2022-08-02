@@ -1,4 +1,4 @@
-<mat-card class="review">
+<!-- <mat-card class="review">
   <mat-card-title
     ><a
       [routerLink]="'/restaurant/' + review.restaurantId"
@@ -21,4 +21,15 @@
   <mat-card-content>
     <p>{{ review.text }}</p>
   </mat-card-content>
-</mat-card>
+</mat-card> -->
+
+<review-default
+  [review]="review"
+  *ngIf="!isEdit"
+  (changeMode)="changeMode($event)"
+></review-default>
+<review-edit
+  (changeMode)="changeMode($event)"
+  [review]="review"
+  *ngIf="isEdit"
+></review-edit>

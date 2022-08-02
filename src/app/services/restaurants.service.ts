@@ -40,6 +40,7 @@ export interface Review {
   restaurantId: string;
   userName: string | null;
   restaurantName: string;
+  id?: string;
 }
 
 export interface ResponseFavorite {
@@ -60,7 +61,13 @@ export class RestaurantsService {
   filter = (prefix: string, value: string) => value || undefined; // Из-за этого ошибка в src/app/components/filters/filters.component.ts:69:39
   private data = new ReplaySubject<queryParams>(2);
   public readonly data$ = this.data.asObservable();
+  editedReview: BehaviorSubject<Review | null> =
+    new BehaviorSubject<Review | null>(null);
+  deletedReviews: BehaviorSubject<string | null> = new BehaviorSubject<
+    string | null
+  >(null);
   private _loading = new BehaviorSubject<boolean>(false);
+
   public readonly loading$ = this._loading.asObservable();
 
   constructor(private http: HttpClient) {}
@@ -86,6 +93,10 @@ export class RestaurantsService {
 
   setParams(params: queryParams) {
     this.data.next(params);
+  }
+
+  setEditReview(review: Review): void {
+    this.editedReview.next(review);
   }
 
   checkNulls(value: any) {
@@ -143,6 +154,25 @@ export class RestaurantsService {
 
   addReviewOnServer(review: Review): Observable<Review> {
     return this.http.post<Review>(`${environment.apiUrl}/comments`, review);
+  }
+
+  editReview({
+    text,
+    id,
+    rating,
+  }: {
+    text: string;
+    id: string;
+    rating: number;
+  }): Observable<Review> {
+    return this.http.put<Review>(`${environment.apiUrl}/comments/${id}`, {
+      text,
+      rating,
+    });
+  }
+
+  deleteReview(id: string) {
+    return this.http.delete<Review>(`${environment.apiUrl}/comments/${id}`);
   }
 
   getReviews(restaurantId?: string, userId?: string): Observable<Review[]> {
