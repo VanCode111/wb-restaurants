@@ -31,7 +31,12 @@ export class EditComponent implements OnInit {
       return;
     }
     this.restaurantsService
-      .editReview({ id: this.review.id, text: this.text, rating: this.rating })
+      .editReview({
+        id: this.review.id,
+        text: this.text,
+        rating: this.rating,
+        createdAt: new Date(),
+      })
       .subscribe((review: Review) => {
         this.changeMode.emit(false);
         this.restaurantsService.setEditReview(review);

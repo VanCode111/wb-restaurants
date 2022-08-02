@@ -160,18 +160,21 @@ export class RestaurantsService {
     text,
     id,
     rating,
+    createdAt,
   }: {
     text: string;
     id: string;
     rating: number;
+    createdAt: Date;
   }): Observable<Review> {
     return this.http.put<Review>(`${environment.apiUrl}/comments/${id}`, {
       text,
       rating,
+      createdAt,
     });
   }
 
-  deleteReview(id: string) {
+  deleteReview(id: string): Observable<Review> {
     return this.http.delete<Review>(`${environment.apiUrl}/comments/${id}`);
   }
 

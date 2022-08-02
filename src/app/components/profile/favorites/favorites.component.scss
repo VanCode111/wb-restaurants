@@ -23,4 +23,11 @@
       grid-gap: 15px;
     }
   }
+  &__empty {
+    padding-top: 200px;
+    text-align: center;
+  }
+  &__no-favorite-text {
+    font-size: 25px;
+  }
 }

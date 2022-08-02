@@ -9,4 +9,11 @@
     grid-gap: 20px;
     display: grid;
   }
+  &__empty {
+    padding-top: 200px;
+    text-align: center;
+  }
+  &__no-review-text {
+    font-size: 25px;
+  }
 }

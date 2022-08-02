@@ -8,6 +8,7 @@ import {
   User,
   UserCredential,
 } from '@angular/fire/auth';
+import { FirebaseStorage, StorageInstances } from '@angular/fire/storage';
 import { BehaviorSubject, from, Observable, switchMap } from 'rxjs';
 
 export interface ISignIn {
