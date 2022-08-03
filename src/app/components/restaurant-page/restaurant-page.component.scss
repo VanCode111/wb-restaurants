@@ -134,6 +134,10 @@
     border: 2px solid #b209ec;
     padding: 2%;
     background: linear-gradient(335deg, rgba(230,126,34,0.1) 0%, rgba(178,9,236,0.1) 100%);
+
+    .mat-h1{
+      padding-top: 1%;
+    }
   }
 
   textarea{
@@ -171,6 +175,20 @@
     height: 60px;
     margin-left: 1%;
     opacity: 0.9;
+    &__delete{
+      width: auto;
+    }
+
+    &__put{
+      width: auto;
+    }
+    &__edit{
+      width: auto;
+    }
+    ::ng-deep .mat-icon {
+      font-size: 20px;
+      line-height: 40px !important;
+    }
   }
 
   .mat-spinner {

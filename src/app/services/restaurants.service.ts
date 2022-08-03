@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {environment} from '../../environments/environment';
 
 export interface RestaurantsApiResponse {
   data: Restaurant[];
@@ -32,6 +32,12 @@ export interface Favorites {
   userId: string;
 }
 
+export interface ExtraReview {
+  createdAt: Date
+  rating: number;
+  text: string;
+}
+
 export interface Review {
   createdAt: Date;
   userId: string;
@@ -41,6 +47,7 @@ export interface Review {
   userName: string | null;
   restaurantName: string;
   id?: string;
+  extra?: ExtraReview[]
 }
 
 export interface ResponseFavorite {
@@ -63,14 +70,13 @@ export class RestaurantsService {
   public readonly data$ = this.data.asObservable();
   editedReview: BehaviorSubject<Review | null> =
     new BehaviorSubject<Review | null>(null);
-  deletedReviews: BehaviorSubject<string | null> = new BehaviorSubject<
-    string | null
-  >(null);
+  deletedReviews: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   private _loading = new BehaviorSubject<boolean>(false);
 
   public readonly loading$ = this._loading.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   showLoader() {
     this._loading.next(true);
@@ -83,7 +89,7 @@ export class RestaurantsService {
   getRestaurants(params?: queryParams): Observable<RestaurantsApiResponse> {
     return this.http.get<RestaurantsApiResponse>(
       `${environment.apiUrl}/restaurants?l=6`,
-      { params }
+      {params}
     );
   }
 
@@ -124,7 +130,7 @@ export class RestaurantsService {
     };
     return this.http.get<ResponseFavorite[]>(
       `${environment.apiUrl}/favorites`,
-      { params }
+      {params}
     );
   }
 
@@ -147,17 +153,40 @@ export class RestaurantsService {
     return this.http.post<Review>(`${environment.apiUrl}/comments`, review);
   }
 
-  editReview({
-    text,
-    id,
-    rating,
-    createdAt,
-  }: {
-    text: string;
-    id: string;
-    rating: number;
-    createdAt: Date;
-  }): Observable<Review> {
+  addExtraReviewOnServer(
+    {
+      text,
+      id,
+      rating,
+      createdAt,
+    }: {
+      text: string;
+      id: string;
+      rating: number;
+      createdAt: Date;
+    }): Observable<Review> {
+
+    return this.http.put<Review>(`${environment.apiUrl}/comments/${id}`, {
+      extra: [{
+        text,
+        rating,
+        createdAt
+      }]
+    });
+  }
+
+  editReview(
+    {
+      text,
+      id,
+      rating,
+      createdAt,
+    }: {
+      text: string
+      id: string
+      rating: number
+      createdAt: Date
+    }): Observable<Review> {
     return this.http.put<Review>(`${environment.apiUrl}/comments/${id}`, {
       text,
       rating,
