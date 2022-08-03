@@ -1,3 +1,21 @@
+@mixin lg {
+  @media (max-width: (1420px)) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (max-width: (1060px)) {
+    @content;
+  }
+}
+
+@mixin sm {
+  @media (max-width: (850px)) {
+    @content;
+  }
+}
+
 .restaurants {
   display: flex;
   flex-direction: column;
@@ -8,6 +26,13 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-gap: 15px;
+      @include lg {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include sm {
+        grid-template-columns: repeat(1, 1fr);
+      }
     }
   }
 }
@@ -15,4 +40,17 @@
 .spinner {
   align-self: center;
   margin-top: 100px;
+}
+
+.not-found {
+  text-align: center;
+
+  &__img {
+    width: 400px;
+    margin-bottom: 10px;
+  }
+
+  &__text {
+    font-size: 20px;
+  }
 }

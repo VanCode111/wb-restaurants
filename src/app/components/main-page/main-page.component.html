@@ -3,7 +3,15 @@
     <app-search></app-search>
     <div class="main">
       <div class="main__filters">
-        <app-filters></app-filters>
+        <mat-expansion-panel [expanded]="panelOpenState" (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-icon>filter_list</mat-icon>
+          </mat-expansion-panel-header>
+          <p>
+            <app-filters></app-filters>
+          </p>
+        </mat-expansion-panel>
       </div>
       <div class="main__list">
         <app-restaurants-list></app-restaurants-list>

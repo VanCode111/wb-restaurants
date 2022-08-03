@@ -1,11 +1,33 @@
+@mixin lg {
+  @media (max-width: (1420px)) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (max-width: (1060px)) {
+    @content;
+  }
+}
+
 .slider {
   position: relative;
-  margin-bottom: 20px;
+  max-width: 775px;
+  min-height: 525px;
+  margin: 0 auto;
+
+  @include lg {
+    max-width: 600px;
+  }
+
+  @include md {
+    max-width: 100%;
+  }
 }
 
 .swiper {
-  max-width: 775px;
-  min-height: 525px;
+  width: 100%;
+  height: 510px;
 }
 
 .swiper-wrapper {
@@ -18,23 +40,5 @@
     object-fit: cover;
   }
 }
-
-.nav-btn {
-  position: absolute;
-  bottom: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &--prev {
-    left: 8%;
-  }
-
-  &--next {
-    right: 8%;
-  }
-}
-
 
 
