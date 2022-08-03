@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: stretch;
     flex-direction: column;
-    height: 100vh;
+    height: calc(100vh - 125px - 16px);
   }
   &__form {
     max-width: 300px;

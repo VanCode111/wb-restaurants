@@ -25,6 +25,7 @@ import {MainPageComponent} from './components/main-page/main-page.component';
 import {FiltersComponent} from './components/filters/filters.component';
 import {HeaderComponent} from './components/header/header.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatMenuModule} from '@angular/material/menu';
 import {AngularFireModule} from '@angular/fire/compat';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -35,8 +36,12 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {ToastrModule} from 'ngx-toastr';
 import {ProfileComponent} from './components/profile/profile.component';
 import {FavoritesComponent} from './components/profile/favorites/favorites.component';
+import {ReviewComponent} from './components/profile/reviews/review/review.component';
+import {ReviewsComponent} from './components/profile/reviews/reviews.component';
+import {EditComponent} from './components/profile/reviews/review/edit/edit.component';
+import {DefaultComponent} from './components/profile/reviews/review/default/default.component';
 import {GridToggleComponent} from './components/restaurants-list/grid-toggle/grid-toggle.component';
-import {SwiperModule} from "swiper/angular";
+import {SwiperModule} from 'swiper/angular';
 import {SliderComponent} from './components/restaurants-list/slider/slider.component';
 
 @NgModule({
@@ -46,7 +51,6 @@ import {SliderComponent} from './components/restaurants-list/slider/slider.compo
     RestaurantItemComponent,
     SigninComponent,
     SignupComponent,
-    RestaurantItemComponent,
     RestaurantPageComponent,
     SearchComponent,
     MainPageComponent,
@@ -54,8 +58,13 @@ import {SliderComponent} from './components/restaurants-list/slider/slider.compo
     HeaderComponent,
     CostPipe,
     HeaderComponent,
+    ReviewComponent,
     ProfileComponent,
+    ReviewComponent,
+    EditComponent,
+    ReviewsComponent,
     FavoritesComponent,
+    DefaultComponent,
     GridToggleComponent,
     SliderComponent,
   ],
@@ -70,6 +79,7 @@ import {SliderComponent} from './components/restaurants-list/slider/slider.compo
     MatInputModule,
     BrowserAnimationsModule,
     MatIconModule,
+    MatMenuModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatGridListModule,
@@ -84,7 +94,7 @@ import {SliderComponent} from './components/restaurants-list/slider/slider.compo
     MatPaginatorModule,
     HttpClientModule,
     ToastrModule.forRoot(),
-    SwiperModule
+    SwiperModule,
   ],
   providers: [
     {

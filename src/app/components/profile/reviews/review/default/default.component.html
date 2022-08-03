@@ -1,0 +1,36 @@
+<mat-card class="review">
+  <mat-card-title class="review__top"
+    ><a
+      [routerLink]="'/restaurant/' + review.restaurantId"
+      class="review__link"
+      >{{ review.restaurantName }}</a
+    >
+    <button
+      [matMenuTriggerFor]="menu"
+      mat-icon-button
+      aria-label="Example icon button with a vertical three dot
+      icon"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onChangeMode()">Изменить</button>
+      <button mat-menu-item (click)="deleteReview()">Удалить</button>
+    </mat-menu></mat-card-title
+  >
+  <mat-card-subtitle>
+    <mat-icon
+      *ngFor="let type of stars"
+      aria-hidden="false"
+      aria-label="Example home icon"
+      color="accent"
+    >
+      {{ type }}
+    </mat-icon>
+
+    Создан: <span>{{ review.createdAt | date }}</span></mat-card-subtitle
+  >
+  <mat-card-content>
+    <p>{{ review.text }}</p>
+  </mat-card-content>
+</mat-card>

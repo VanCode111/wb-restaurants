@@ -1,0 +1,14 @@
+<div class="reviews">
+  <div class="reviews__wrap" *ngIf="sortedReviews">
+    <div class="reviews__cols" *ngFor="let col of [0, 1, 2]">
+      <div *ngFor="let review of sortedReviews[col]" class="reviews__review">
+        <app-review [review]="review">
+          {{ review.userName }}
+        </app-review>
+      </div>
+    </div>
+  </div>
+  <div class="reviews__empty" *ngIf="reviews.length < 1">
+    <p class="reviews__no-review-text">Нет отзывов</p>
+  </div>
+</div>

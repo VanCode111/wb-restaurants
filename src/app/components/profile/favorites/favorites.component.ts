@@ -15,6 +15,7 @@ export class FavoritesComponent implements OnInit {
   @Input() user: User;
   favorites: Favorites[];
   loading: boolean;
+  isList: boolean = true;
 
   constructor(private restaurantsService: RestaurantsService) {}
 

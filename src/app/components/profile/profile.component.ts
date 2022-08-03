@@ -10,7 +10,9 @@ import { Component, OnInit } from '@angular/core';
 export class ProfileComponent implements OnInit {
   userName: string | null | undefined;
   user: User | null;
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {
+    document.title = 'Профиль';
+  }
 
   ngOnInit(): void {
     this.authService.currentUser$.subscribe((user) => {
