@@ -1,3 +1,10 @@
+@mixin md {
+  @media (max-width: (1060px)) {
+    @content;
+  }
+}
+
+
 .restaurant-card {
   width: 100%;
   margin-bottom: 30px;
@@ -6,6 +13,11 @@
     margin: 0;
     max-width: 300px;
     min-height: 382px;
+
+    @include md {
+      max-width: unset;
+      min-width: 376px;
+    }
 
     .restaurant-card__img {
       height: 150px;

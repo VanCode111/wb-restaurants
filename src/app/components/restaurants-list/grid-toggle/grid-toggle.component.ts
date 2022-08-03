@@ -10,7 +10,7 @@ type layoutType = 'list' | 'grid' | 'slider'
 export class GridToggleComponent implements OnInit {
   type: layoutType = 'list'
   @Output() typeEvent = new EventEmitter<layoutType>();
-
+  
   changeType(type: layoutType) {
     this.type = type
     this.typeEvent.emit(this.type)

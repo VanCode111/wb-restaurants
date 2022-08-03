@@ -1,8 +1,6 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import SwiperCore, {Navigation, Pagination, SwiperOptions} from "swiper";
-import {image} from "../restaurants-list.component";
+import {Component, Input, OnInit} from '@angular/core';
+import SwiperCore, {Pagination, SwiperOptions} from "swiper";
 import {Restaurant} from "../../../services/restaurants.service";
-import {SwiperComponent} from "swiper/angular";
 
 SwiperCore.use([Pagination]);
 
@@ -14,15 +12,6 @@ SwiperCore.use([Pagination]);
 })
 export class SliderComponent implements OnInit {
   @Input() restaurantsList: Restaurant[] | null = []
-  @ViewChild('swiper', {static: false}) swiper: SwiperComponent;
-
-  slideNext() {
-    this.swiper.swiperRef.slideNext(300);
-  }
-
-  slidePrev() {
-    this.swiper.swiperRef.slidePrev(300);
-  }
 
   config: SwiperOptions = {
     pagination: true,

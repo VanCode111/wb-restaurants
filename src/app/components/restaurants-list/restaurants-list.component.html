@@ -1,6 +1,9 @@
 <div class="restaurants">
   <mat-spinner *ngIf="loading$ | async; else restList" class="spinner"></mat-spinner>
-  <div *ngIf="isEmpty && !(loading$ | async)">Ничего не найдено</div>
+  <div *ngIf="isEmpty && !(loading$ | async)" class="restaurants__not-found not-found">
+    <img class="not-found__img" src="./assets/not-found.svg" alt="not-found">
+    <p class="not-found__text">Ничего не найдено</p>
+  </div>
   <ng-template #restList>
     <app-grid-toggle *ngIf="!isEmpty && !(loading$ | async)" (typeEvent)="changeType($event)"></app-grid-toggle>
     <app-slider *ngIf="type === 'slider'; else restsItems" [restaurantsList]="restaurants"></app-slider>

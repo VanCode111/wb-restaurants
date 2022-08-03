@@ -13,7 +13,7 @@
     </mat-card-title>
     <mat-card-subtitle>{{ item.address }}</mat-card-subtitle>
   </mat-card-header>
-  <a [routerLink]="['restaurant', item.id]">
+  <a [routerLink]="['../restaurant', item.id]">
     <img class="restaurant-card__img" mat-card-image [src]="item.image"/>
   </a>
   <mat-card-content>

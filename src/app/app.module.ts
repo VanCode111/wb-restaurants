@@ -37,7 +37,7 @@ import {ProfileComponent} from './components/profile/profile.component';
 import {FavoritesComponent} from './components/profile/favorites/favorites.component';
 import {GridToggleComponent} from './components/restaurants-list/grid-toggle/grid-toggle.component';
 import {SwiperModule} from "swiper/angular";
-import { SliderComponent } from './components/restaurants-list/slider/slider.component';
+import {SliderComponent} from './components/restaurants-list/slider/slider.component';
 
 @NgModule({
   declarations: [
