@@ -2,48 +2,48 @@
   <mat-spinner></mat-spinner>
 </div>
 
-<div *ngIf="!loading" >
-  <div class="details">
-    <mat-grid-list cols="2" class="restaurant-page" rowHeight="5:4" gutterSize="5px">
-      <mat-grid-tile-header>
-        <div class="restaurant-page__title">
-          <p class="mat-display-2">{{restaurant.name}}
-            <mat-icon
-              *ngFor="let type of starArray"
-              aria-hidden="false"
-              aria-label="Example home icon"
-              color="accent"
-            >
-              {{ type }}
-            </mat-icon>
-          </p>
+
+<div *ngIf="!loading">
+  <mat-grid-list cols="2" class="restaurant-page" rowHeight="5:4" gutterSize="5px">
+    <mat-grid-tile-header>
+      <div class="restaurant-page__title">
+        <p class="mat-display-2">{{restaurant.name}}
           <mat-icon
-            aria-hidden="false" aria-label="Example home icon" fontIcon="place" color="accent">
+            *ngFor="let type of starArray"
+            aria-hidden="false"
+            aria-label="Example home icon"
+            color="accent"
+          >
+            {{ type }}
           </mat-icon>
-          <a [href]="mapLink" target="_blank" class="mat-display-1"><b>{{restaurant.address}}</b></a>
-        </div>
-      </mat-grid-tile-header>
-      <mat-grid-tile colspan="1" rowspan="1">
-        <img class="restaurant-page__image" mat-card-image [src]="restaurant.image">
-      </mat-grid-tile>
-      <mat-grid-tile colspan="1" rowspan="1" class="restaurant-page__description">
-        <mat-grid-list cols="2" gutterSize="18px" rowHeight="3:1" class="restaurant-page__description__field">
-          <div class="restaurant-page__info">
-            <mat-grid-tile colspan="2" rowspan="1">
-              <p class="mat-display-2">Информация о ресторане</p>
-            </mat-grid-tile>
-            <mat-grid-tile colspan="1" rowspan="1" class="restaurant-page__description__tile">
-              <div>
-                <h1>Время работы</h1>
-                <li>будни: {{restaurant.time.weekdays}}</li>
-                <li>выходные: {{restaurant.time.weekends}}</li>
-              </div>
-            </mat-grid-tile>
-            <mat-grid-tile colspan="1" rowspan="1" class="restaurant-page__description__tile">
-              <div class="no-marks">
-                <li>
-                  <b>Цена:</b>
-                  <span [ngSwitch]="restaurant.cost">
+        </p>
+        <mat-icon
+          aria-hidden="false" aria-label="Example home icon" fontIcon="place" color="accent">
+        </mat-icon>
+        <a [href]="mapLink" target="_blank" class="mat-display-1"><b>{{restaurant.address}}</b></a>
+      </div>
+    </mat-grid-tile-header>
+    <mat-grid-tile colspan="1" rowspan="1">
+      <img class="restaurant-page__image" mat-card-image [src]="restaurant.image">
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1" rowspan="1" class="restaurant-page__description">
+      <mat-grid-list cols="2" gutterSize="18px" rowHeight="3:1" class="restaurant-page__description__field">
+        <div class="restaurant-page__info">
+          <mat-grid-tile colspan="2" rowspan="1">
+            <p class="mat-display-2">Информация о ресторане</p>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="1" rowspan="1" class="restaurant-page__description__tile">
+            <div>
+              <h1>Время работы</h1>
+              <li>будни: {{restaurant.time.weekdays}}</li>
+              <li>выходные: {{restaurant.time.weekends}}</li>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="1" rowspan="1" class="restaurant-page__description__tile">
+            <div class="no-marks">
+              <li>
+                <b>Цена:</b>
+                <span [ngSwitch]="restaurant.cost">
                   <span *ngSwitchCase='1'> ₽</span>
                   <span *ngSwitchCase='2'> ₽₽</span>
                   <span *ngSwitchCase='3'> ₽₽₽</span>
@@ -51,84 +51,87 @@
                   <span *ngSwitchCase='5'> ₽₽₽₽₽</span>
                   <span *ngSwitchDefault>Нет данных</span>
                 </span>
-                </li>
-                <li><b>Средний чек:</b> {{restaurant.averageCheck}} ₽
-                </li>
-              </div>
-            </mat-grid-tile>
-            <mat-grid-tile colspan="2" rowspan="1" class="restaurant-page__description__tile">
-              <div>
-                <h1>Тип кухни</h1>
-                <p>{{restaurant.kitchens}}</p>
-              </div>
-            </mat-grid-tile>
-            <mat-grid-tile colspan="2" rowspan="1" class="restaurant-page__description__tile">
-              <div *ngIf="restaurant.menuLink">
-                <h1><a [href]="restaurant.menuLink">Меню данного заведения</a></h1>
-              </div>
-              <div *ngIf="!restaurant.menuLink">
-                <h1>Ссылки на меню пока нет :(</h1>
-              </div>
-            </mat-grid-tile>
-            <mat-grid-tile colspan="2" rowspan="1">
-              <button mat-button (click)="addFollowRestaurant()"> {{followButtonText}}
-                <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="favorite"
-                          color="warn"></mat-icon>
-              </button>
-            </mat-grid-tile>
-          </div>
-        </mat-grid-list>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div>
-  <div class="margin">
-    <mat-expansion-panel class="reviews" (opened)="panelOpenState = true"
-                         (closed)="panelOpenState = false">
-      <mat-expansion-panel-header>
-        <mat-panel-title class="mat-h1">
-          Отзывы о ресторане
-        </mat-panel-title>
-        <mat-panel-description class="mat-h1">
-          Всего отзывов: {{reviews.length}}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <mat-card class="reviews__area" *ngIf="currentUser">
-        <mat-card-title class="mat-h1" *ngIf="!existUserReview">Добавить свой отзыв</mat-card-title>
-        <mat-card-title class="mat-h1" *ngIf="existUserReview">Исправить свой отзыв</mat-card-title>
-        <mat-card-content>
-          <mat-form-field appearance="fill" class="reviews__area__rate">
-            <mat-label class="mat-h2">Оцените заведение</mat-label>
-            <mat-select [(ngModel)]="reviewRate" name="food">
-              <mat-option  *ngFor="let rate of rates" [value]="rate.value">
-                {{rate.value}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field appearance="fill" class="reviews__area__text">
-            <mat-label class="mat-h2">Напишите комментарий ниже...</mat-label>
-            <textarea matInput class="mat-h1" placeholder="Например: Хороший ресторан, быстрое обслуживания, вкусная еда"
-                      [(ngModel)]="reviewText"></textarea>
-          </mat-form-field>
-          <button mat-button class="reviews__button" (click)="addReview()" [disabled]="!stateReviewButton" *ngIf="!existUserReview">
-            <mat-spinner diameter="35" *ngIf="!stateReviewButton" color="warn"></mat-spinner>
-            <p *ngIf="stateReviewButton">Отправить свой отзыв</p>
-          </button>
-          <button mat-button class="reviews__button" (click)="changeReview()" [disabled]="!stateReviewButton" *ngIf="existUserReview">
-            <mat-spinner diameter="35" *ngIf="!stateReviewButton" color="warn"></mat-spinner>
-            <p *ngIf="stateReviewButton">Изменить свой отзыв</p>
-          </button>
-          <button mat-button class="reviews__button" (click)="deleteReview()" [disabled]="!stateReviewButton" *ngIf="existUserReview">
-            <mat-spinner diameter="35" *ngIf="!stateReviewButton" color="warn"></mat-spinner>
-            <p *ngIf="stateReviewButton">Удалить свой отзыв</p>
-          </button>
-        </mat-card-content>
-      </mat-card>
-      <mat-card *ngFor="let review of reviews ">
-        <mat-card-title class="reviews__title">
-          <div>
-            <p class="mat-h1">{{review.userName || "Аноним"}}</p>
-            <p class="mat-h3">Оценка:
-              <mat-icon
+              </li>
+              <li><b>Средний чек:</b> {{restaurant.averageCheck}} ₽
+              </li>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="2" rowspan="1" class="restaurant-page__description__tile">
+            <div>
+              <h1>Тип кухни</h1>
+              <p>{{restaurant.kitchens}}</p>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="2" rowspan="1" class="restaurant-page__description__tile">
+            <div *ngIf="restaurant.menuLink">
+              <h1><a [href]="restaurant.menuLink">Меню данного заведения</a></h1>
+            </div>
+            <div *ngIf="!restaurant.menuLink">
+              <h1>Ссылки на меню пока нет :(</h1>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="2" rowspan="1">
+            <button mat-button (click)="addFollowRestaurant()"> {{followButtonText}}
+              <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="favorite"
+                        color="warn"></mat-icon>
+            </button>
+          </mat-grid-tile>
+        </div>
+      </mat-grid-list>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+
+  <mat-expansion-panel class="reviews" (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="mat-h1">
+        Отзывы о ресторане
+      </mat-panel-title>
+      <mat-panel-description class="mat-h1">
+        Всего отзывов: {{reviews.length}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-card class="reviews__area" *ngIf="currentUser">
+      <mat-card-title class="mat-h1" *ngIf="!existUserReview">Добавить свой отзыв</mat-card-title>
+      <mat-card-title class="mat-h1" *ngIf="existUserReview">Исправить свой отзыв</mat-card-title>
+      <mat-card-content>
+        <mat-form-field appearance="fill" class="reviews__area__rate">
+          <mat-label class="mat-h2">Оцените заведение</mat-label>
+          <mat-select [(ngModel)]="reviewRate" name="food">
+            <mat-option *ngFor="let rate of RATES" [value]="rate.value">
+              {{rate.value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="reviews__area__text">
+          <mat-label class="mat-h2">Напишите комментарий ниже...</mat-label>
+          <textarea matInput class="mat-h1" placeholder="Например: Хороший ресторан, быстрое обслуживания, вкусная еда"
+                    [(ngModel)]="reviewText"></textarea>
+        </mat-form-field>
+        <button mat-button class="reviews__button" (click)="addReview()" [disabled]="!stateReviewButton"
+                *ngIf="!existUserReview">
+          <mat-spinner diameter="35" *ngIf="!stateReviewButton" color="warn"></mat-spinner>
+          <p *ngIf="stateReviewButton">Отправить свой отзыв</p>
+        </button>
+        <button mat-button class="reviews__button" (click)="changeReview()" [disabled]="!stateReviewButton"
+                *ngIf="existUserReview">
+          <mat-spinner diameter="35" *ngIf="!stateReviewButton" color="warn"></mat-spinner>
+          <p *ngIf="stateReviewButton">Изменить свой отзыв</p>
+        </button>
+        <button mat-button class="reviews__button" (click)="deleteReview()" [disabled]="!stateReviewButton"
+                *ngIf="existUserReview">
+          <mat-spinner diameter="35" *ngIf="!stateReviewButton" color="warn"></mat-spinner>
+          <p *ngIf="stateReviewButton">Удалить свой отзыв</p>
+        </button>
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngFor="let review of reviews ">
+      <mat-card-title class="reviews__title">
+        <div>
+          <p class="mat-h1">{{review.userName || "Аноним"}}</p>
+          <p class="mat-h3">Оценка:
+            <mat-icon
               *ngFor="let type of reviewRatingMap.get(review.id)"
               aria-hidden="false"
               aria-label="Example home icon"
@@ -136,14 +139,13 @@
             >
               {{ type }}
             </mat-icon>
-            </p>
-          </div>
-          <p class="mat-h2">{{review.createdAt | date: 'dd/MM/yyyy'}}</p>
-        </mat-card-title>
-        <mat-card-content class="reviews__examples">
-          <p>{{review.text}}</p>
-        </mat-card-content>
-      </mat-card>
-    </mat-expansion-panel>
-  </div>
+          </p>
+        </div>
+        <p class="mat-h2">{{review.createdAt | date: 'dd/MM/yyyy'}}</p>
+      </mat-card-title>
+      <mat-card-content class="reviews__examples">
+        <p>{{review.text}}</p>
+      </mat-card-content>
+    </mat-card>
+  </mat-expansion-panel>
 </div>

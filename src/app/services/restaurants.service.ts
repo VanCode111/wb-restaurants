@@ -28,8 +28,8 @@ export interface Restaurant {
 
 export interface Favorites {
   restaurant: Restaurant;
-  restaurantId: String;
-  userId: String;
+  restaurantId: string;
+  userId: string;
 }
 
 export interface Review {
