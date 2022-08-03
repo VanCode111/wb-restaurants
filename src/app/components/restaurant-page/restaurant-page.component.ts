@@ -6,6 +6,7 @@ import {map, mergeMap, Subscription} from "rxjs";
 import {User} from "@angular/fire/auth";
 import {ToastrService} from 'ngx-toastr';
 import {Review} from "../../services/restaurants.service";
+import {getStarsByRating} from "../../utils/reviews";
 
 @Component({
   selector: 'app-restaurant-page',
@@ -22,7 +23,7 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
   subscriptionFavoriteRestaurant$: Subscription | null = null
   forkQuery$: Subscription | null = null
   restaurant: Restaurant
-  starArray: number[]
+  starArray: string[]
   panelOpenState = false
   loading: boolean
   id: string
@@ -45,7 +46,11 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
     {value: '5'},
   ]
   mapLink: string;
-  stateReviewButton: boolean = true;
+  stateReviewButton: boolean = true
+  reviewRatingMap: Map<string | undefined, string[]> = new Map()
+  existUserReview: boolean = false
+  idUserReview: string
+  dateReview: Date
 
   constructor(private authService: AuthService,
               private activateRoute: ActivatedRoute,
@@ -60,30 +65,10 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
 
     this.loading = true;
 
-    // forkJoin(
-    //   {
-    //     oneRestaurant: this.restaurantsService.getReviews(this.id).pipe(catchError(error => of(error))),
-    //     reviews: this.restaurantsService.getOneRestaurant(this.id).pipe(catchError(error => of(error))),
-    //   }).pipe(
-    //     map((response: any) => {
-    //       this.currentUser = response.auth
-    //       this.restaurant = response.oneRestaurant
-    //       this.starArray = new Array(Math.floor(this.restaurant.rating))
-    //       console.log("map after fork")
-    //     }),
-    // ).subscribe( result => {
-    //   console.log("next")
-    //   this.reviews = result[0]
-    //   if(result[1].length){
-    //     this.followButtonState = !!result[1]
-    //     this.followId = result[1][0].id
-    //   }
-    //   this.loading = false;
-    // })
-
     this.subscriptionRestaurants$ = this.restaurantsService.getOneRestaurant(this.id).subscribe((data) => {
         this.restaurant = data
-        this.starArray = new Array(Math.floor(this.restaurant.rating))
+        // this.starArray = new Array(Math.floor(this.restaurant.rating))
+        this.starArray = getStarsByRating(this.restaurant.rating);
         this.mapLink = `https://yandex.ru/maps/?text=${this.restaurant.address}`
         this.loading = false;
       }
@@ -108,8 +93,24 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
     });
 
     this.subscriptionReviews$ = this.restaurantsService.getReviews(this.id).subscribe(array => {
-      this.reviews = array
-    })
+        this.reviews = array
+        if (this.reviews) {
+          this.reviews.forEach(element => {
+            this.reviewRatingMap.set(<string>element.id, getStarsByRating(element.rating))
+            if (element.userId == this.currentUser?.uid) {
+              this.existUserReview = true
+              this.reviewText = element.text
+              this.reviewRate = element.rating
+              this.idUserReview = <string>element.id
+              this.dateReview = element.createdAt
+            }
+
+          })
+        }
+
+        console.log(this.reviews)
+      }
+    )
 
 
   }
@@ -174,6 +175,44 @@ export class RestaurantPageComponent implements OnInit, OnDestroy {
         this.toastr.error('Не удалось добавить отзыв', "Неудача")
       })
   }
+
+  changeReview() {
+    if (!this.reviewRate || !this.reviewText) {
+      this.toastr.warning('Заполните все поля', "Предупреждение")
+      return
+    }
+    this.stateReviewButton = false;
+    const changeReview = {
+      text: this.reviewText,
+      id: this.idUserReview,
+      rating: this.reviewRate,
+      createdAt: this.dateReview,
+    }
+
+    this.subscriptionAddReviews$ = this.restaurantsService.editReview(changeReview).subscribe(() => {
+        this.toastr.success('Отзыв успешно обновлён', "Успех")
+        this.stateReviewButton = true
+      },
+      error => {
+        this.toastr.error('Не удалось обновить отзыв', "Неудача")
+      })
+  }
+
+
+  deleteReview() {
+    this.stateReviewButton = false;
+
+    this.subscriptionAddReviews$ = this.restaurantsService.deleteReview(this.idUserReview).subscribe(() => {
+        this.toastr.success('Отзыв успешно удалён', "Успех")
+        this.reviewRate = 0
+        this.reviewText = ""
+        this.stateReviewButton = true
+      },
+      error => {
+        this.toastr.error('Не удалось удалить отзыв', "Неудача")
+      })
+  }
+
 
   ngOnDestroy(): void {
     this.subscriptionRestaurants$?.unsubscribe()

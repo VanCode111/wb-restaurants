@@ -8,11 +8,14 @@
       <mat-grid-tile-header>
         <div class="restaurant-page__title">
           <p class="mat-display-2">{{restaurant.name}}
-            <mat-icon *ngFor="let key of starArray"
-                      aria-hidden="false" aria-label="Example home icon" fontIcon="star" color="accent">
+            <mat-icon
+              *ngFor="let type of starArray"
+              aria-hidden="false"
+              aria-label="Example home icon"
+              color="accent"
+            >
+              {{ type }}
             </mat-icon>
-            <mat-icon *ngIf="restaurant.rating * 2 % 2 == 1" aria-hidden="false" aria-label="Example home icon"
-                      fontIcon="star_half" color="accent"></mat-icon>
           </p>
           <mat-icon
             aria-hidden="false" aria-label="Example home icon" fontIcon="place" color="accent">
@@ -90,24 +93,33 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-card class="reviews__area" *ngIf="currentUser">
-        <mat-card-title class="mat-h1">Добавить свой отзыв</mat-card-title>
+        <mat-card-title class="mat-h1" *ngIf="!existUserReview">Добавить свой отзыв</mat-card-title>
+        <mat-card-title class="mat-h1" *ngIf="existUserReview">Исправить свой отзыв</mat-card-title>
         <mat-card-content>
           <mat-form-field appearance="fill" class="reviews__area__rate">
-            <mat-label>Оцените заведение</mat-label>
+            <mat-label class="mat-h2">Оцените заведение</mat-label>
             <mat-select [(ngModel)]="reviewRate" name="food">
-              <mat-option *ngFor="let rate of rates" [value]="rate.value">
+              <mat-option  *ngFor="let rate of rates" [value]="rate.value">
                 {{rate.value}}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="fill" class="reviews__area__text">
-            <mat-label>Напишите комментарий здесь...</mat-label>
-            <textarea matInput placeholder="Например: Хороший ресторан, быстрое обслуживания, вкусная еда"
+            <mat-label class="mat-h2">Напишите комментарий ниже...</mat-label>
+            <textarea matInput class="mat-h1" placeholder="Например: Хороший ресторан, быстрое обслуживания, вкусная еда"
                       [(ngModel)]="reviewText"></textarea>
           </mat-form-field>
-          <button mat-button class="reviews__button" (click)="addReview()" [disabled]="!stateReviewButton">
+          <button mat-button class="reviews__button" (click)="addReview()" [disabled]="!stateReviewButton" *ngIf="!existUserReview">
             <mat-spinner diameter="35" *ngIf="!stateReviewButton" color="warn"></mat-spinner>
             <p *ngIf="stateReviewButton">Отправить свой отзыв</p>
+          </button>
+          <button mat-button class="reviews__button" (click)="changeReview()" [disabled]="!stateReviewButton" *ngIf="existUserReview">
+            <mat-spinner diameter="35" *ngIf="!stateReviewButton" color="warn"></mat-spinner>
+            <p *ngIf="stateReviewButton">Изменить свой отзыв</p>
+          </button>
+          <button mat-button class="reviews__button" (click)="deleteReview()" [disabled]="!stateReviewButton" *ngIf="existUserReview">
+            <mat-spinner diameter="35" *ngIf="!stateReviewButton" color="warn"></mat-spinner>
+            <p *ngIf="stateReviewButton">Удалить свой отзыв</p>
           </button>
         </mat-card-content>
       </mat-card>
@@ -115,7 +127,16 @@
         <mat-card-title class="reviews__title">
           <div>
             <p class="mat-h1">{{review.userName || "Аноним"}}</p>
-            <p class="mat-h3">Оценка: {{review.rating}} <mat-icon fontIcon="star" color="accent"></mat-icon></p>
+            <p class="mat-h3">Оценка:
+              <mat-icon
+              *ngFor="let type of reviewRatingMap.get(review.id)"
+              aria-hidden="false"
+              aria-label="Example home icon"
+              color="accent"
+            >
+              {{ type }}
+            </mat-icon>
+            </p>
           </div>
           <p class="mat-h2">{{review.createdAt | date: 'dd/MM/yyyy'}}</p>
         </mat-card-title>
