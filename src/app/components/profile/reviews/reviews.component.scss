@@ -1,0 +1,19 @@
+.reviews {
+  padding: 10px;
+
+  &__review + &__review {
+    margin-top: 20px;
+  }
+  &__wrap {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    display: grid;
+  }
+  &__empty {
+    padding-top: 200px;
+    text-align: center;
+  }
+  &__no-review-text {
+    font-size: 25px;
+  }
+}

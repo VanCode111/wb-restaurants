@@ -6,4 +6,28 @@
 
 .favorites {
   padding: 10px;
+  &__btns {
+    display: flex;
+    margin: 20px 0;
+    gap: 10px;
+  }
+  &__btn {
+    &.active {
+      background-color: #e0dfdf;
+    }
+  }
+  &__list {
+    &.grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 15px;
+    }
+  }
+  &__empty {
+    padding-top: 200px;
+    text-align: center;
+  }
+  &__no-favorite-text {
+    font-size: 25px;
+  }
 }

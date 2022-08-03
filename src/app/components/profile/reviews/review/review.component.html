@@ -1,0 +1,35 @@
+<!-- <mat-card class="review">
+  <mat-card-title
+    ><a
+      [routerLink]="'/restaurant/' + review.restaurantId"
+      class="review__link"
+      >{{ review.restaurantName }}</a
+    ></mat-card-title
+  >
+  <mat-card-subtitle>
+    <mat-icon
+      *ngFor="let type of stars"
+      aria-hidden="false"
+      aria-label="Example home icon"
+      color="accent"
+    >
+      {{ type }}
+    </mat-icon>
+
+    Создан: <span>{{ review.createdAt | date }}</span></mat-card-subtitle
+  >
+  <mat-card-content>
+    <p>{{ review.text }}</p>
+  </mat-card-content>
+</mat-card> -->
+
+<review-default
+  [review]="review"
+  *ngIf="!isEdit"
+  (changeMode)="changeMode($event)"
+></review-default>
+<review-edit
+  (changeMode)="changeMode($event)"
+  [review]="review"
+  *ngIf="isEdit"
+></review-edit>

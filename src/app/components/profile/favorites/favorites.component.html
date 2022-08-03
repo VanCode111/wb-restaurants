@@ -3,10 +3,34 @@
     <mat-spinner></mat-spinner>
   </div>
 
-  <div class="favorites__list" *ngIf="!loading">
-    <app-restaurant-item
-      *ngFor="let favorite of favorites"
-      [item]="favorite.restaurant"
-    ></app-restaurant-item>
+  <div class="favorites__list" *ngIf="!loading && favorites.length > 0">
+    <div class="favorites__btns">
+      <button
+        mat-button
+        class="favorites__btn"
+        (click)="isList = true"
+        [class.active]="isList"
+      >
+        <mat-icon>reorder</mat-icon>
+      </button>
+      <button
+        mat-button
+        class="favorites__btn"
+        (click)="isList = false"
+        [class.active]="!isList"
+      >
+        <mat-icon>grid_on</mat-icon>
+      </button>
+    </div>
+
+    <div class="favorites__list" [class.grid]="!isList">
+      <app-restaurant-item
+        *ngFor="let favorite of favorites"
+        [item]="favorite.restaurant"
+      ></app-restaurant-item>
+    </div>
+  </div>
+  <div class="favorites__empty" *ngIf="!loading && favorites.length < 1">
+    <p class="favorites__no-favorite-text">Нет ресторанов</p>
   </div>
 </div>
