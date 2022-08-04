@@ -178,18 +178,17 @@
 
     &__delete{
       width: auto;
-      margin: 1%;
-      height: 51px;
+      margin-left: 1%;
+      height: 60px;
     }
 
     &__put{
       width: 250px;
-      margin: 1%;
     }
     &__edit{
-      width: auto;
-      margin: 1%;
-      height: 51px;
+      width: 250px;
+      height: 60px;
+
     }
     ::ng-deep .mat-icon {
 

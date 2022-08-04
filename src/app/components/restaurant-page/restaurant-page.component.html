@@ -139,9 +139,7 @@
               <button mat-button class="reviews__button__edit" (click)="changeReview()" [disabled]="!stateReviewButton"
                       *ngIf="existUserReview">
                 <mat-spinner diameter="35" *ngIf="!stateReviewButton" color="warn"></mat-spinner>
-                <div>
-                  <mat-icon *ngIf="stateReviewButton">edit</mat-icon>
-                </div>
+                <p *ngIf="stateReviewButton">Обновить отзыв</p>
               </button>
               <button mat-button class="reviews__button__delete" (click)="deleteReview()"
                       [disabled]="!stateReviewButton"
