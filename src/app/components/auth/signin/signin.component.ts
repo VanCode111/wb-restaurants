@@ -15,7 +15,7 @@ export class SigninComponent implements OnInit {
   signInForm!: FormGroup;
   error!: string;
   isLoading = false;
-  user$!: Subscription;
+  userSub$: Subscription;
   constructor(private AuthService: AuthService, private router: Router) {
     document.title = 'Авторизация';
     this._createForm();
@@ -32,7 +32,7 @@ export class SigninComponent implements OnInit {
 
   submit(): void {
     this.isLoading = true;
-    this.user$ = this.AuthService.signIn(this.signInForm.getRawValue())
+    this.userSub$ = this.AuthService.signIn(this.signInForm.getRawValue())
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: () => {
@@ -45,7 +45,7 @@ export class SigninComponent implements OnInit {
   }
 
   OnDestroy() {
-    this.user$?.unsubscribe();
+    this.userSub$.unsubscribe();
   }
 
   get email() {

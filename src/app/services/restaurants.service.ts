@@ -171,12 +171,12 @@ export class RestaurantsService {
 
   getReviews(restaurantId?: string, userId?: string): Observable<Review[]> {
     let params: HttpParams = new HttpParams();
-    if (restaurantId !== undefined) {
+    if (restaurantId) {
       params = params.set('restaurantId', restaurantId);
     }
 
-    if (userId !== undefined) {
-      params = params.append('userId', userId);
+    if (userId) {
+      params = params.set('userId', userId);
     }
 
     return this.http.get<Review[]>(`${environment.apiUrl}/comments`, {

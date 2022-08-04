@@ -1,48 +1,51 @@
 <mat-card class="review">
-  <mat-card-title
-    ><a
-      [routerLink]="'/restaurant/' + review.restaurantId"
-      class="review__link"
-      >{{ review.restaurantName }}</a
-    ></mat-card-title
-  >
-  <mat-card-subtitle>
-    <div class="review__stars">
-      <mat-icon
-        class="review__star"
-        *ngFor="let type of stars; let i = index"
-        (click)="changeRating(i + 1)"
-        aria-hidden="false"
-        aria-label="Example home icon"
-        color="accent"
+  <form [formGroup]="editReviewForm">
+    <mat-card-title
+      ><a
+        [routerLink]="'/restaurant/' + review.restaurantId"
+        class="review__link"
+        >{{ review.restaurantName }}</a
+      ></mat-card-title
+    >
+    <mat-card-subtitle>
+      <div class="review__stars">
+        <mat-icon
+          class="review__star"
+          *ngFor="let type of stars; let i = index"
+          (click)="changeRating(i + 1)"
+          aria-hidden="false"
+          aria-label="Example home icon"
+          color="accent"
+        >
+          {{ type }}
+        </mat-icon>
+      </div>
+    </mat-card-subtitle>
+    <mat-card-content>
+      <mat-form-field
+        class="example-full-width"
+        appearance="fill"
+        class="review__field"
       >
-        {{ type }}
-      </mat-icon>
-    </div>
-  </mat-card-subtitle>
-  <mat-card-content>
-    <mat-form-field
-      class="example-full-width"
-      appearance="fill"
-      class="review__field"
-    >
-      <mat-label>Текст отзыва</mat-label>
-      <textarea
-        matInput
-        class="review__text-area"
-        placeholder="Введите текст отзыва"
-        [(ngModel)]="text"
-      ></textarea>
-    </mat-form-field>
-  </mat-card-content>
-  <mat-card-actions>
-    <button
-      mat-raised-button
-      color="primary"
-      class="review__btn"
-      (click)="saveChanges()"
-    >
-      Сохранить отзыв
-    </button>
-  </mat-card-actions>
+        <mat-label>Текст отзыва</mat-label>
+        <textarea
+          matInput
+          class="review__text-area"
+          placeholder="Введите текст отзыва"
+          formControlName="text"
+        ></textarea>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        [disabled]="editReviewForm.invalid"
+        mat-raised-button
+        color="primary"
+        class="review__btn"
+        (click)="saveChanges()"
+      >
+        Сохранить отзыв
+      </button>
+    </mat-card-actions>
+  </form>
 </mat-card>

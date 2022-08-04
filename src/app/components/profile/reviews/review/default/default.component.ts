@@ -12,6 +12,7 @@ export class DefaultComponent implements OnInit {
   @Input() review: Review;
   @Output() changeMode: EventEmitter<boolean> = new EventEmitter<boolean>();
   stars: string[];
+
   constructor(private restaurantsService: RestaurantsService) {}
 
   onChangeMode() {
@@ -23,12 +24,9 @@ export class DefaultComponent implements OnInit {
     if (!id) {
       return;
     }
-    const deleteSubscription = this.restaurantsService
-      .deleteReview(id)
-      .subscribe(() => {
-        deleteSubscription.unsubscribe();
-        this.restaurantsService.deletedReviews.next(id);
-      });
+    this.restaurantsService.deleteReview(id).subscribe(() => {
+      this.restaurantsService.deletedReviews.next(id);
+    });
   }
 
   ngOnInit(): void {

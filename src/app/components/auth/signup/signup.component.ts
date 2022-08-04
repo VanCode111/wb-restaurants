@@ -15,7 +15,8 @@ export class SignupComponent implements OnInit {
   signUpForm!: FormGroup;
   error!: string;
   isLoading = false;
-  user$!: Subscription;
+  userSub$!: Subscription;
+
   constructor(private AuthService: AuthService, private router: Router) {
     document.title = 'Регистрация';
     this._createForm();
@@ -33,12 +34,11 @@ export class SignupComponent implements OnInit {
 
   submit(): void {
     this.isLoading = true;
-    this.user$ = this.AuthService.signUp(this.signUpForm.getRawValue())
+    this.userSub$ = this.AuthService.signUp(this.signUpForm.getRawValue())
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: () => {
           this.router.navigate(['/restaurants']);
-          console.log(111);
         },
         error: (err: FirebaseError) => {
           this.error = err.message;
@@ -47,7 +47,7 @@ export class SignupComponent implements OnInit {
   }
 
   OnDestroy() {
-    this.user$?.unsubscribe();
+    this.userSub$?.unsubscribe();
   }
 
   get email() {
