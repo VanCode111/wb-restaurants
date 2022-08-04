@@ -175,19 +175,25 @@
     height: 60px;
     margin-left: 1%;
     opacity: 0.9;
+
     &__delete{
       width: auto;
+      margin: 1%;
+      height: 51px;
     }
 
     &__put{
-      width: auto;
+      width: 250px;
+      margin: 1%;
     }
     &__edit{
       width: auto;
+      margin: 1%;
+      height: 51px;
     }
     ::ng-deep .mat-icon {
-      font-size: 20px;
-      line-height: 40px !important;
+
+      line-height: 20px !important;
     }
   }
 

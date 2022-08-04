@@ -31,7 +31,7 @@ export class RestaurantPageComponent implements OnInit {
   // subscriptionChangeReviews$: Subscription | null = null
   // subscriptionDeleteReviews$: Subscription | null = null
 
-  subscribeReviews$: Observable<Review[]>
+  // subscribeReviews$: Observable<Review[]>
 
   restaurant: Restaurant
   starArray: string[]
@@ -50,7 +50,7 @@ export class RestaurantPageComponent implements OnInit {
   reviewRatingMap: Map<string, string[]> = new Map()
   reviewExtraMap: Map<string, ExtraReview[]> = new Map()
   existUserReview: boolean = false
-  idUserReview: string
+  idReview: string
   RATES = [
     {value: '1'},
     {value: '1.5'},
@@ -67,7 +67,8 @@ export class RestaurantPageComponent implements OnInit {
               private activateRoute: ActivatedRoute,
               private restaurantsService: RestaurantsService,
               private toastr: ToastrService,
-              private cdr: ChangeDetectorRef) {
+              private cdr: ChangeDetectorRef
+  ) {
     this.loading = false;
     this.restaurantId = activateRoute.snapshot.params['id']
     this.followButtonText = "Добавить в 'Хочу посетить'"
@@ -76,7 +77,7 @@ export class RestaurantPageComponent implements OnInit {
   ngOnInit(): void {
 
     this.loading = true;
-    this.subscribeReviews$ = this.restaurantsService.getReviews(this.restaurantId)
+    // this.subscribeReviews$ = this.restaurantsService.getReviews(this.restaurantId)
     forkJoin([
       this.restaurantsService.getOneRestaurant(this.restaurantId)
         .pipe(map(restaurant => {
@@ -104,29 +105,29 @@ export class RestaurantPageComponent implements OnInit {
             this.followButtonState = true
             this.followButtonText = "Удалить из раздела 'Хочу посетить'"
           }
+          this.loading = false;
         })
       ),
-      this.subscribeReviews$.pipe(map((reviews) => {
+      this.restaurantsService.getReviews(this.restaurantId).pipe(map((reviews) => {
         this.reviews = reviews
         if (this.reviews) {
-          this.reviews.forEach((element: Review) => {
-            if (element.id) {
-              this.reviewRatingMap.set(element.id, getStarsByRating(element.rating))
-              if (element.extra) {
-                this.reviewExtraMap.set(element.id, element.extra)
+          this.reviews.forEach((review: Review) => {
+            if (review.id) {
+              this.reviewRatingMap.set(review.id, getStarsByRating(review.rating))
+              if (review.extra) {
+                this.reviewExtraMap.set(review.id, review.extra)
               }
             }
-            if (element.userId === this.currentUser?.uid) {
+            if (review.userId === this.currentUser?.uid) {
               this.existUserReview = true
-              this.reviewText = element.text
-              this.reviewRate = element.rating
-              if (element.id) {
-                this.idUserReview = element.id
+              this.reviewText = review.text
+              this.reviewRate = review.rating
+              if (review.id) {
+                this.idReview = review.id
               }
             }
           })
         }
-        this.loading = false;
       }))
     ])
       .pipe(catchError(error => of(error)))
@@ -229,7 +230,7 @@ export class RestaurantPageComponent implements OnInit {
     }
     this.stateReviewButton = false;
 
-    const review: Review = {
+    const reviewRequest: Review = {
       rating: this.reviewRate,
       restaurantId: this.restaurant.id,
       text: this.reviewText,
@@ -239,39 +240,51 @@ export class RestaurantPageComponent implements OnInit {
       restaurantName: this.restaurant.name
     }
 
-    this.restaurantsService.addReviewOnServer(review).pipe(first()).subscribe(() => {
+    this.restaurantsService.addReviewOnServer(reviewRequest).pipe(first()).subscribe((review) => {
         this.toastr.success('Отзыв успешно добавлен', "Успех")
-        this.reviewRate = 0
-        this.reviewText = ""
+        this.cdr.detach()
+        this.reviews.push(reviewRequest)
+        this.reviewText = reviewRequest.text
+        this.reviewRate = reviewRequest.rating
+        if (review.id) {
+          this.idReview = review.id
+        }
+        this.existUserReview = true
         this.stateReviewButton = true
+        this.cdr.reattach()
+
       },
       error => {
         this.toastr.error('Не удалось добавить отзыв', "Неудача")
       })
-    this.subscribeReviews$.pipe(first()).subscribe(reviews => {
-      this.reviews = reviews;
-    })
   }
 
   addExtraReview() {
-    const extraReview = {
+    if (!this.reviewRate || !this.reviewText) {
+      this.toastr.warning('Заполните все поля', "Предупреждение")
+      return
+    }
+    this.stateReviewButton = false
+    this.reviewExtraMap.set(this.idReview, [])
+
+    const extraReview: ExtraReview[] = this.reviewExtraMap.get(this.idReview)!.concat([{
       text: this.reviewText,
       rating: this.reviewRate,
-      id: this.idUserReview,
       createdAt: new Date(),
-    }
-    this.restaurantsService.addExtraReviewOnServer(extraReview).pipe(first()).subscribe(() => {
+    }])
+
+
+    this.restaurantsService.addExtraReviewOnServer(extraReview, this.idReview).pipe(first()).subscribe(() => {
         this.toastr.success('Отзыв успешно добавлен', "Успех")
-        this.reviewRate = 0
-        this.reviewText = ""
+        this.cdr.detach()
+        this.reviewExtraMap.set(this.idReview, extraReview);
         this.stateReviewButton = true
+        this.cdr.reattach()
+
       },
       error => {
         this.toastr.error('Не удалось добавить отзыв', "Неудача")
       })
-    this.subscribeReviews$.pipe(first()).subscribe(reviews => {
-      this.reviews = reviews;
-    })
   }
 
 
@@ -284,14 +297,24 @@ export class RestaurantPageComponent implements OnInit {
     this.stateReviewButton = false;
     const changeReview = {
       text: this.reviewText,
-      id: this.idUserReview,
+      id: this.idReview,
       rating: this.reviewRate,
       createdAt: new Date(),
     }
 
-    this.restaurantsService.editReview(changeReview).pipe(first()).subscribe(() => {
+    this.restaurantsService.editReview(changeReview).pipe(first()).subscribe((response) => {
+
         this.toastr.success('Отзыв успешно обновлён', "Успех")
+        this.cdr.detach()
+        this.reviews.forEach(review => {
+          if (review.id === changeReview.id) {
+            review.text = changeReview.text
+            review.rating = changeReview.rating
+            review.createdAt = changeReview.createdAt
+          }
+        })
         this.stateReviewButton = true
+        this.cdr.reattach()
       },
       error => {
         this.toastr.error('Не удалось обновить отзыв', "Неудача")
@@ -302,11 +325,21 @@ export class RestaurantPageComponent implements OnInit {
   deleteReview() {
     this.stateReviewButton = false;
 
-    this.restaurantsService.deleteReview(this.idUserReview).pipe(first()).subscribe(() => {
+    this.restaurantsService.deleteReview(this.idReview).pipe(first()).subscribe(() => {
+        this.cdr.detach()
+
+        let indexReview = 0
         this.toastr.success('Отзыв успешно удалён', "Успех")
         this.reviewRate = 0
         this.reviewText = ""
         this.stateReviewButton = true
+        this.reviews.forEach((review, index) => {
+          if (review.id === this.idReview)
+            indexReview = index
+        })
+        this.reviews.splice(indexReview, 1)
+        this.existUserReview = false
+        this.cdr.reattach()
       },
       error => {
         this.toastr.error('Не удалось удалить отзыв', "Неудача")

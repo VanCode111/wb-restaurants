@@ -153,26 +153,12 @@ export class RestaurantsService {
     return this.http.post<Review>(`${environment.apiUrl}/comments`, review);
   }
 
-  addExtraReviewOnServer(
-    {
-      text,
-      id,
-      rating,
-      createdAt,
-    }: {
-      text: string;
-      id: string;
-      rating: number;
-      createdAt: Date;
-    }): Observable<Review> {
+  addExtraReviewOnServer(extra: ExtraReview[], id: string): Observable<Review> {
 
     return this.http.put<Review>(`${environment.apiUrl}/comments/${id}`, {
-      extra: [{
-        text,
-        rating,
-        createdAt
-      }]
-    });
+        extra: extra
+      }
+    );
   }
 
   editReview(

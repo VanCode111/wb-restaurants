@@ -111,15 +111,15 @@
                         placeholder="Например: Хороший ресторан, быстрое обслуживания, вкусная еда"
                         [(ngModel)]="reviewText"></textarea>
             </mat-form-field>
-            <button mat-button class="reviews__button__put" (click)="addReview()" [disabled]="!stateReviewButton">
+            <button mat-button class="reviews__button" (click)="addReview()" [disabled]="!stateReviewButton">
               <mat-spinner diameter="35" *ngIf="!stateReviewButton" color="warn"></mat-spinner>
-              <p>Отправить свой отзыв</p>
+              <p *ngIf="stateReviewButton">Отправить свой отзыв</p>
             </button>
           </mat-card-content>
         </div>
         <mat-tab-group *ngIf="existUserReview">
           <mat-tab label="Исправить">
-            <mat-card-title class="mat-h1" *ngIf="existUserReview">Исправить свой отзыв</mat-card-title>
+            <mat-card-title class="mat-h1" >Исправить свой отзыв</mat-card-title>
             <mat-card-content>
               <mat-form-field appearance="fill" class="reviews__area__rate">
                 <mat-label class="mat-h2">Оцените заведение</mat-label>
@@ -154,7 +154,7 @@
             </mat-card-content>
           </mat-tab>
           <mat-tab label="Дополнить">
-            <mat-card-title class="mat-h1" *ngIf="existUserReview">Дополнить свой отзыв</mat-card-title>
+            <mat-card-title class="mat-h1" >Дополнить свой отзыв</mat-card-title>
             <mat-card-content>
               <mat-form-field appearance="fill" class="reviews__area__rate">
                 <mat-label class="mat-h2">Оцените заведение</mat-label>
@@ -167,8 +167,7 @@
               <mat-form-field appearance="fill" class="reviews__area__text">
                 <mat-label class="mat-h2">Напишите комментарий ниже...</mat-label>
                 <textarea matInput class="mat-h1"
-                          placeholder="Например: Хороший ресторан, быстрое обслуживания, вкусная еда"
-                          [(ngModel)]="reviewText"></textarea>
+                          [(ngModel)]="reviewText" value=""></textarea>
               </mat-form-field>
               <button mat-button class="reviews__button__put" (click)="addExtraReview()" [disabled]="!stateReviewButton">
                 <mat-spinner diameter="35" *ngIf="!stateReviewButton" color="warn"></mat-spinner>
@@ -182,15 +181,15 @@
         <mat-card-title class="reviews__title">
           <div>
             <p class="mat-h1">{{review.userName || "Аноним"}}</p>
-            <p class="mat-h3">Оценка:
-              <mat-icon
-                *ngFor="let type of reviewRatingMap.get(review.id!.toString())"
-                aria-hidden="false"
-                aria-label="Example home icon"
-                color="accent"
-              >
-                {{ type }}
-              </mat-icon>
+            <p class="mat-h3">Оценка: {{review.rating}}
+<!--              <mat-icon-->
+<!--                *ngFor="let type of reviewRatingMap.get(review.id!.toString())"-->
+<!--                aria-hidden="false"-->
+<!--                aria-label="Example home icon"-->
+<!--                color="accent"-->
+<!--              >-->
+<!--                {{ type }}-->
+<!--              </mat-icon>-->
             </p>
           </div>
           <p class="mat-h2">{{review.createdAt | date: 'dd/MM/yyyy'}}</p>
